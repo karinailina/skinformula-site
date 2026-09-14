@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkinFormula — a skin plan built on evidence</title>
+<meta name="description" content="SkinFormula builds your skin routine from your answers and a scan, grades every claim by its evidence, and keeps your photos on your phone.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+  :root{--ink:#152030;--ink2:#4E5C71;--ink3:#7E8CA2;--violet:#4F63F0;--mint:#12BFA8;--rose:#F6D5DD;--card:#fff}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:#E9ECF6;
+    background-image:radial-gradient(60% 50% at 10% 0%,#C9D3FF 0%,transparent 60%),radial-gradient(50% 45% at 95% 10%,#BFF0E2 0%,transparent 60%),radial-gradient(60% 50% at 80% 100%,#E6D8FF 0%,transparent 60%),radial-gradient(40% 40% at 10% 90%,#FFE2D0 0%,transparent 60%);background-attachment:fixed}
+  main{max-width:820px;margin:0 auto;padding:40px 20px 80px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:56px}
+  .logo{font-weight:800;font-size:22px;letter-spacing:-.3px}
+  nav a{color:var(--ink2);text-decoration:none;margin-left:18px;font-size:15px}
+  h1{font-size:44px;line-height:1.08;letter-spacing:-.8px;margin:0 0 16px}
+  .deck{font-size:19px;line-height:1.5;color:var(--ink2);max-width:640px;margin:0 0 28px}
+  .btn{display:inline-block;background:var(--rose);color:#9E4A63;font-weight:700;padding:15px 26px;border-radius:999px;text-decoration:none;box-shadow:0 10px 24px rgba(120,70,92,.18)}
+  .btn.ghost{background:#fff;color:var(--ink);margin-left:10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:48px 0}
+  .card{background:var(--card);border-radius:24px;padding:20px;box-shadow:0 12px 30px rgba(58,74,138,.10)}
+  .card h3{margin:0 0 8px;font-size:17px}
+  .card p{margin:0;color:var(--ink2);line-height:1.5;font-size:15px}
+  .eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+  .note{background:#fff;border-radius:18px;padding:16px 18px;color:var(--ink2);font-size:14px;line-height:1.5;margin-top:40px}
+  footer{margin-top:60px;color:var(--ink3);font-size:13px;line-height:1.7}
+  footer a{color:var(--ink2)}
+  @media (max-width:520px){h1{font-size:34px}.btn.ghost{margin:10px 0 0}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="logo">SkinFormula</div>
+    <nav><a href="privacy.html">Privacy</a><a href="support.html">Support</a></nav>
+  </header>
+
+  <div class="eyebrow">For iPhone · in testing</div>
+  <h1>A skin plan that recommends less, not more.</h1>
+  <p class="deck">SkinFormula builds your routine from your answers and a scan: which nights get an active, at what strength, and what to skip. Every claim carries its evidence grade. "You already own enough" is a valid answer.</p>
+  <a class="btn" href="support.html#testflight">Join the test on TestFlight</a>
+  <a class="btn ghost" href="privacy.html">How your data is handled</a>
+
+  <div class="grid">
+    <div class="card"><h3>A plan from your answers</h3><p>Pregnancy removes retinoids and strong acids. Reactive skin gets fewer active nights. Your concern picks the active. The reasons are shown, in plain words.</p></div>
+    <div class="card"><h3>Honest about evidence</h3><p>Forty-nine articles written against published guidelines and trials, each with its sources and a section on what is not established.</p></div>
+    <div class="card"><h3>Clinic and home, one calendar</h3><p>Book a course of peels, and the app pauses your retinoid around each visit. Day-by-day recovery timelines say what is normal and what means "call the clinic today".</p></div>
+    <div class="card"><h3>Check a product</h3><p>Scan a barcode or paste the ingredient list. The app says whether it suits your skin, which night it belongs to, and whether you already own something that does the same job.</p></div>
+    <div class="card"><h3>Sun and air, live</h3><p>Today's ultraviolet index and humidity for where you are, turned into one line of advice. Location rounded to a kilometre, never stored.</p></div>
+    <div class="card"><h3>On your phone, only</h3><p>No account. Photos, scores and answers never leave the device. Deleting the app deletes everything.</p></div>
+  </div>
+
+  <div class="note">SkinFormula is a wellbeing tool, not a medical device. It never diagnoses. Anything that changes shape, colour or size, or worries you, belongs with a doctor.</div>
+
+  <footer>
+    © 2026 SkinFormula · Switzerland · <a href="privacy.html">Privacy policy</a> · <a href="terms.html">Terms</a> · <a href="support.html">Support</a><br>
+    Ingredient data from Open Beauty Facts (ODbL). Weather from Open-Meteo. Face mesh from MediaPipe (Apache 2.0).
+  </footer>
+</main>
+</body>
+</html>
