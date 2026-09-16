@@ -4,60 +4,168 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SkinFormula — a skin plan built on evidence</title>
-<meta name="description" content="SkinFormula builds your skin routine from your answers and a scan, grades every claim by its evidence, and keeps your photos on your phone.">
+<meta name="description" content="SkinFormula builds your skin routine from your answers and a scan, grades every claim by its evidence, reads your blood tests and product labels on the phone, and keeps your photos on the device.">
+<meta property="og:title" content="SkinFormula — a skin plan built on evidence">
+<meta property="og:description" content="A routine from your answers and a scan. Evidence-graded. Photos stay on your phone.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://skinformula.app/">
 <link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--ink:#152030;--ink2:#4E5C71;--ink3:#7E8CA2;--violet:#4F63F0;--mint:#12BFA8;--rose:#F6D5DD;--card:#fff}
+  :root{
+    --ink:#152030;--ink2:#4E5C71;--ink3:#6F7C92;--line:#E4E8F2;
+    --violet:#5566E8;--mint:#12A894;--peach:#C9803B;--rose:#F6D5DD;--roseInk:#9E4A63;
+    --card:#FFFFFF;--soft:#F4F6FB;--bg:#EAEDF7;
+    --display:"Gabarito",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    --text:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  }
   *{box-sizing:border-box}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:#E9ECF6;
-    background-image:radial-gradient(60% 50% at 10% 0%,#C9D3FF 0%,transparent 60%),radial-gradient(50% 45% at 95% 10%,#BFF0E2 0%,transparent 60%),radial-gradient(60% 50% at 80% 100%,#E6D8FF 0%,transparent 60%),radial-gradient(40% 40% at 10% 90%,#FFE2D0 0%,transparent 60%);background-attachment:fixed}
-  main{max-width:820px;margin:0 auto;padding:40px 20px 80px}
-  header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:56px}
-  .logo{font-weight:800;font-size:22px;letter-spacing:-.3px}
-  nav a{color:var(--ink2);text-decoration:none;margin-left:18px;font-size:15px}
-  h1{font-size:44px;line-height:1.08;letter-spacing:-.8px;margin:0 0 16px}
-  .deck{font-size:19px;line-height:1.5;color:var(--ink2);max-width:640px;margin:0 0 28px}
-  .btn{display:inline-block;background:var(--rose);color:#9E4A63;font-weight:700;padding:15px 26px;border-radius:999px;text-decoration:none;box-shadow:0 10px 24px rgba(120,70,92,.18)}
-  .btn.ghost{background:#fff;color:var(--ink);margin-left:10px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:48px 0}
-  .card{background:var(--card);border-radius:24px;padding:20px;box-shadow:0 12px 30px rgba(58,74,138,.10)}
-  .card h3{margin:0 0 8px;font-size:17px}
-  .card p{margin:0;color:var(--ink2);line-height:1.5;font-size:15px}
-  .eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
-  .note{background:#fff;border-radius:18px;padding:16px 18px;color:var(--ink2);font-size:14px;line-height:1.5;margin-top:40px}
-  footer{margin-top:60px;color:var(--ink3);font-size:13px;line-height:1.7}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--text);color:var(--ink);background:var(--bg);
+    background-image:radial-gradient(60% 45% at 8% 0%,#C9D3FF 0%,transparent 62%),radial-gradient(52% 42% at 96% 8%,#BFF0E2 0%,transparent 60%),radial-gradient(58% 48% at 82% 98%,#E6D8FF 0%,transparent 62%),radial-gradient(42% 38% at 6% 92%,#FFE2D0 0%,transparent 60%);
+    background-attachment:fixed;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:26px 0 8px}
+  .logo{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.3px}
+  nav a{color:var(--ink2);text-decoration:none;margin-left:20px;font-size:15px}
+  nav a:hover{color:var(--ink)}
+  .eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+  h1{font-family:var(--display);font-size:clamp(34px,5.2vw,54px);line-height:1.05;letter-spacing:-1px;margin:14px 0 18px;text-wrap:balance;max-width:16ch}
+  h2{font-family:var(--display);font-size:clamp(24px,3vw,32px);line-height:1.12;letter-spacing:-.6px;margin:0 0 10px;text-wrap:balance}
+  h3{font-family:var(--display);font-size:18px;margin:0 0 8px;letter-spacing:-.2px}
+  p{line-height:1.55;color:var(--ink2);margin:0 0 14px}
+  .deck{font-size:clamp(17px,2vw,20px);max-width:56ch}
+  .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center;padding:26px 0 8px}
+  .shot{border-radius:30px;box-shadow:0 26px 60px rgba(40,56,120,.20);width:100%;display:block;background:var(--soft)}
+  .phone{max-width:290px;margin:0 auto}
+  .btn{display:inline-block;background:var(--rose);color:var(--roseInk);font-family:var(--display);font-weight:700;padding:15px 26px;border-radius:999px;text-decoration:none;box-shadow:0 12px 26px rgba(120,70,92,.20)}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.ghost{background:#fff;color:var(--ink);box-shadow:0 10px 24px rgba(58,74,138,.12)}
+  .cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+  section{padding:56px 0}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:22px;counter-reset:s}
+  .step{background:var(--card);border-radius:24px;padding:20px 20px 22px;box-shadow:0 12px 30px rgba(58,74,138,.10)}
+  .step .n{width:28px;height:28px;border-radius:10px;background:var(--violet);color:#fff;font-family:var(--display);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:22px}
+  .card{background:var(--card);border-radius:24px;padding:22px;box-shadow:0 12px 30px rgba(58,74,138,.10)}
+  .card p{margin:0;font-size:15px}
+  .card .tag{display:inline-block;font-size:11px;font-family:ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);background:rgba(18,168,148,.10);border-radius:999px;padding:4px 10px;margin-bottom:10px}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+  .split.rev .text{order:2}
+  .numbers{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:22px}
+  .num{background:var(--card);border-radius:20px;padding:18px;box-shadow:0 12px 30px rgba(58,74,138,.10)}
+  .num b{font-family:var(--display);font-size:30px;display:block;letter-spacing:-.6px}
+  .num span{color:var(--ink3);font-size:14px}
+  .note{background:var(--card);border-radius:20px;padding:18px 20px;color:var(--ink2);font-size:14.5px;line-height:1.55}
+  details{background:var(--card);border-radius:18px;padding:14px 18px;margin-bottom:10px;box-shadow:0 8px 22px rgba(58,74,138,.08)}
+  summary{font-family:var(--display);font-size:16px;cursor:pointer;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";float:right;color:var(--ink3)}
+  details[open] summary::after{content:"–"}
+  details p{margin:10px 0 2px;font-size:15px}
+  footer{padding:40px 0 60px;color:var(--ink3);font-size:13.5px;line-height:1.8;border-top:1px solid var(--line);margin-top:30px}
   footer a{color:var(--ink2)}
-  @media (max-width:520px){h1{font-size:34px}.btn.ghost{margin:10px 0 0}}
+  @media (max-width:840px){.hero,.split{grid-template-columns:1fr}.split.rev .text{order:0}.phone{max-width:250px}}
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){--ink:#EAF1F9;--ink2:#A9B6C9;--ink3:#8593A8;--line:#26304A;--card:#151C2C;--soft:#1B2334;--bg:#0C1220;--rose:#3A2A33;--roseInk:#FFD9E3}
+    :root:not([data-theme="light"]) body{background-image:radial-gradient(60% 45% at 8% 0%,#1D2A57 0%,transparent 62%),radial-gradient(52% 42% at 96% 8%,#0F3A36 0%,transparent 60%),radial-gradient(58% 48% at 82% 98%,#291F49 0%,transparent 62%)}
+    :root:not([data-theme="light"]) .btn.ghost{background:#1B2334;color:#EAF1F9}
+  }
 </style>
 </head>
 <body>
-<main>
+<div class="wrap">
   <header>
     <div class="logo">SkinFormula</div>
-    <nav><a href="privacy.html">Privacy</a><a href="support.html">Support</a></nav>
+    <nav><a href="#how">How it works</a><a href="#inside">Inside</a><a href="privacy.html">Privacy</a><a href="support.html">Support</a></nav>
   </header>
 
-  <div class="eyebrow">For iPhone · in testing</div>
-  <h1>A skin plan that recommends less, not more.</h1>
-  <p class="deck">SkinFormula builds your routine from your answers and a scan: which nights get an active, at what strength, and what to skip. Every claim carries its evidence grade. "You already own enough" is a valid answer.</p>
-  <a class="btn" href="support.html#testflight">Join the test on TestFlight</a>
-  <a class="btn ghost" href="privacy.html">How your data is handled</a>
-
-  <div class="grid">
-    <div class="card"><h3>A plan from your answers</h3><p>Pregnancy removes retinoids and strong acids. Reactive skin gets fewer active nights. Your concern picks the active. The reasons are shown, in plain words.</p></div>
-    <div class="card"><h3>Honest about evidence</h3><p>Forty-nine articles written against published guidelines and trials, each with its sources and a section on what is not established.</p></div>
-    <div class="card"><h3>Clinic and home, one calendar</h3><p>Book a course of peels, and the app pauses your retinoid around each visit. Day-by-day recovery timelines say what is normal and what means "call the clinic today".</p></div>
-    <div class="card"><h3>Check a product</h3><p>Scan a barcode or paste the ingredient list. The app says whether it suits your skin, which night it belongs to, and whether you already own something that does the same job.</p></div>
-    <div class="card"><h3>Sun and air, live</h3><p>Today's ultraviolet index and humidity for where you are, turned into one line of advice. Location rounded to a kilometre, never stored.</p></div>
-    <div class="card"><h3>On your phone, only</h3><p>No account. Photos, scores and answers never leave the device. Deleting the app deletes everything.</p></div>
+  <div class="hero">
+    <div>
+      <div class="eyebrow">For iPhone · in testing</div>
+      <h1>A skin plan that recommends less, not more.</h1>
+      <p class="deck">SkinFormula reads your skin from a scan and your answers, then says which nights get an active, at what strength, and what to skip. Every claim carries its evidence grade. "You already own enough" is a valid answer.</p>
+      <div class="cta-row">
+        <a class="btn" href="support.html#testflight">Join the test on TestFlight</a>
+        <a class="btn ghost" href="privacy.html">How your data is handled</a>
+      </div>
+    </div>
+    <div><img class="shot phone" src="img/today.jpg" alt="The Today screen: today's ultraviolet index, tonight's routine and the week ahead" loading="eager" width="900" height="1957"></div>
   </div>
 
-  <div class="note">SkinFormula is a wellbeing tool, not a medical device. It never diagnoses. Anything that changes shape, colour or size, or worries you, belongs with a doctor.</div>
+  <section id="how">
+    <div class="eyebrow">How it works</div>
+    <h2>Three steps, then it gets out of the way.</h2>
+    <p class="deck">The plan is built once and adjusts as your scans change. Nothing is bought until the app can say why.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Answer, once</h3><p>Age, concerns, sensitivity, pregnancy, medicines and what you already use. Each answer changes the plan, and the app shows how.</p></div>
+      <div class="step"><div class="n">2</div><h3>Scan your face</h3><p>Three photos in daylight, plus a left and right view. Redness, oil, pigment, texture, pores and lines are measured on the phone. If the light is wrong, the scan refuses to run.</p></div>
+      <div class="step"><div class="n">3</div><h3>Follow the week</h3><p>Morning and evening in fixed slots, active nights spaced by what your barrier can take, with recovery nights in between.</p></div>
+    </div>
+  </section>
+
+  <section id="inside">
+    <div class="eyebrow">Inside the app</div>
+    <h2>What it actually does</h2>
+    <div class="features">
+      <div class="card"><span class="tag">Plan</span><h3>A routine, not a shopping list</h3><p>Pregnancy removes retinoids and strong acids. Reactive skin gets fewer active nights. A retinoid user does not also get acids. The reasons are written in plain words.</p></div>
+      <div class="card"><span class="tag">Chat</span><h3>Send a photo of your blood test</h3><p>The values are read on the phone. The app explains what each one means for skin, then suggests what is worth checking next, in order, never all at once.</p></div>
+      <div class="card"><span class="tag">Products</span><h3>One photo of the pack</h3><p>The ingredient list is read on the phone and judged against your skin and your plan. No barcode, no typing.</p></div>
+      <div class="card"><span class="tag">Clinic</span><h3>Procedures ranked for you</h3><p>What the scan points to, with evidence grades, and anything your answers rule out moved aside with the reason. Book a course and the app pauses your retinoid around each visit.</p></div>
+      <div class="card"><span class="tag">Progress</span><h3>Photos that line up</h3><p>Every scan keeps a photo aligned on your eyes, so a before-and-after slider shows the skin changing, not the camera moving.</p></div>
+      <div class="card"><span class="tag">Shelf</span><h3>It can tell you to stop buying</h3><p>The shelf audit finds two products doing the same job, the job nothing covers, and what has expired. When everything is covered, it says so.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="split">
+      <div class="text">
+        <div class="eyebrow">Evidence</div>
+        <h2>Graded, sourced, and honest about the gaps.</h2>
+        <p>Every article and every knowledge-base entry carries a grade: strong, moderate, weak, myth or not studied. Where the evidence is thin, it says so instead of filling the space with confidence.</p>
+        <p>Procedures are written the way a good clinic explains them: what it is used for, how it works, the expected result, downtime, risks, who should not have it, how many sessions, at what interval, and what maintenance costs.</p>
+        <div class="numbers">
+          <div class="num"><b>51</b><span>articles with sources</span></div>
+          <div class="num"><b>17</b><span>knowledge-base sections</span></div>
+          <div class="num"><b>33</b><span>blood markers explained</span></div>
+        </div>
+      </div>
+      <div><img class="shot" src="img/knowledge.jpg" alt="The cosmetic ingredients section, each ingredient graded by evidence" loading="lazy" width="900" height="1957"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="split rev">
+      <div class="text">
+        <div class="eyebrow">Privacy</div>
+        <h2>It stays on your phone.</h2>
+        <p>No account, no cloud. Photos, scores, answers, blood values and the chat live on the device, and deleting the app deletes them.</p>
+        <p>Three things leave the phone, and only when you ask: your rounded location for today's ultraviolet index, a product name when a lookup is needed, and the doctor's report when you choose to share it.</p>
+        <a class="btn ghost" href="privacy.html">Read the privacy policy</a>
+      </div>
+      <div><img class="shot" src="img/chat.jpg" alt="The chat explaining blood test values and what to check next" loading="lazy" width="900" height="1957"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Questions</div>
+    <h2>Before you ask</h2>
+    <details><summary>Is the scan real, or a guess?</summary><p>Real, and limited. The camera measures colour, shine, texture, pores and lines on the phone, in regions set by your own face. It cannot measure hydration or elasticity, so those come from your answers and are labelled that way. A change under five points between scans is noise.</p></details>
+    <details><summary>Does it diagnose anything?</summary><p>No. It sorts findings into home care, professional cosmetology, dermatologist or medical attention, and says when something belongs with a doctor. It never names a disease.</p></details>
+    <details><summary>Is the chat an AI that knows everything?</summary><p>No. It answers from the app's own graded knowledge base and your data, on the phone. That is why it can say "I do not know" instead of inventing an answer.</p></details>
+    <details><summary>What does it cost?</summary><p>During testing, everything is free. Later there will be one clearly named subscription, with the scan, the routine, the calendar and the whole knowledge base staying free.</p></details>
+    <details><summary>Which languages?</summary><p>The interface is in English, German, French, Italian, Spanish and Russian. Articles and the knowledge base are in English for now.</p></details>
+  </section>
+
+  <section>
+    <div class="note">SkinFormula is a wellbeing tool, not a medical device. It does not diagnose. Anything that changes shape, colour or size, bleeds, or does not heal in four weeks belongs with a doctor.</div>
+  </section>
 
   <footer>
-    © 2026 SkinFormula · Switzerland · <a href="privacy.html">Privacy policy</a> · <a href="terms.html">Terms</a> · <a href="support.html">Support</a><br>
-    Ingredient data from Open Beauty Facts (ODbL). Weather from Open-Meteo. Face mesh from MediaPipe (Apache 2.0).
+    © 2026 SkinFormula · <a href="privacy.html">Privacy policy</a> · <a href="terms.html">Terms</a> · <a href="support.html">Support</a> · <a href="mailto:hello@skinformula.app">hello@skinformula.app</a><br>
+    Ingredient data from Open Beauty Facts (ODbL). Weather from Open-Meteo. Text and face reading use Apple's on-device Vision framework.
   </footer>
-</main>
+</div>
 </body>
 </html>
