@@ -9,7 +9,8 @@
 <meta property="og:description" content="A routine from your answers and a scan. Evidence-graded. Photos stay on your phone.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://getskinformula.com/">
-<meta name="theme-color" content="#EEF0FA">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light">
 <link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -18,19 +19,13 @@
   :root{
     --ink:#131B2E;--ink2:#46536B;--ink3:#6C7890;--line:rgba(19,27,46,.10);
     --violet:#5566E8;--lilac:#B9C2FF;--mint:#12A894;--mintSoft:#CDEBE2;--rose:#F6D5DD;--roseInk:#9E4A63;--amber:#E7A24A;
-    --card:#FFFFFF;--cardGlass:rgba(255,255,255,.72);--bg:#EEF0FA;
-    --meshA:#C9D3FF;--meshB:#BFF0E2;--meshC:#E6D8FF;--meshD:#FFE2D0;
+    --card:#FFFFFF;--cardGlass:rgba(255,255,255,.82);--bg:#FFFFFF;color-scheme:light;
+    --meshA:#E3E8FF;--meshB:#DDF6EF;--meshC:#F1EAFF;--meshD:#FFEFE6;
     --display:"Jost","Futura","Avenir Next",-apple-system,BlinkMacSystemFont,sans-serif;
     --text:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
     --mono:"DM Mono",ui-monospace,Menlo,monospace;
-    --shadow:0 18px 50px rgba(48,62,130,.14);
+    --shadow:0 18px 50px rgba(48,62,130,.10);
   }
-  @media (prefers-color-scheme:dark){
-    :root:not([data-theme="light"]){--ink:#EEF2FA;--ink2:#AEB9CC;--ink3:#8691A8;--line:rgba(238,242,250,.12);--card:#141B2B;--cardGlass:rgba(20,27,43,.72);--bg:#0B1020;
-      --meshA:#1D2A57;--meshB:#0F3A36;--meshC:#291F49;--meshD:#3A2430;--rose:#3A2A33;--roseInk:#FFD9E3;--shadow:0 18px 50px rgba(0,0,0,.35)}
-  }
-  :root[data-theme="dark"]{--ink:#EEF2FA;--ink2:#AEB9CC;--ink3:#8691A8;--line:rgba(238,242,250,.12);--card:#141B2B;--cardGlass:rgba(20,27,43,.72);--bg:#0B1020;
-    --meshA:#1D2A57;--meshB:#0F3A36;--meshC:#291F49;--meshD:#3A2430;--rose:#3A2A33;--roseInk:#FFD9E3;--shadow:0 18px 50px rgba(0,0,0,.35)}
 
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -104,8 +99,6 @@
   .screen:hover .device{transform:translateY(-6px) rotate(-.6deg)}
   .screen:nth-child(2):hover .device{transform:translateY(20px) rotate(.6deg)}
   .screen p{font-size:15px;margin:0}
-  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .device{background:linear-gradient(160deg,#222B40,#141B2B)}}
-  :root[data-theme="dark"] .device{background:linear-gradient(160deg,#222B40,#141B2B)}
   @media (max-width:880px){.screens{grid-template-columns:1fr;max-width:340px;margin-inline:auto}.screen:nth-child(2) .device{transform:none}}
 
   /* Numbers */
@@ -294,7 +287,7 @@
   const canvas = document.getElementById('lab');
   const ctx = canvas.getContext('2d');
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const dark = () => document.documentElement.dataset.theme === 'dark' || (document.documentElement.dataset.theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+  const dark = () => false;
   let W = 0, H = 0, dpr = 1, running = true, px = 0, py = 0, tx = 0, ty = 0;
 
   function size() {
