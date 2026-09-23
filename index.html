@@ -3,171 +3,463 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SkinFormula — a skin plan built on evidence</title>
-<meta name="description" content="SkinFormula builds your skin routine from your answers and a scan, grades every claim by its evidence, reads your blood tests and product labels on the phone, and keeps your photos on the device.">
+<title>SkinFormula</title>
+<meta name="description" content="SkinFormula builds your skin routine from your answers and a scan, grades every claim by its evidence, reads product labels and blood tests on the phone, and keeps your photos on the device.">
 <meta property="og:title" content="SkinFormula — a skin plan built on evidence">
 <meta property="og:description" content="A routine from your answers and a scan. Evidence-graded. Photos stay on your phone.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://skinformula.app/">
+<meta property="og:url" content="https://getskinformula.com/">
+<meta name="theme-color" content="#EEF0FA">
 <link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  /* Palette from the app: lilac-to-mint light, rose and mint cream, violet for the formula. */
   :root{
-    --ink:#152030;--ink2:#4E5C71;--ink3:#6F7C92;--line:#E4E8F2;
-    --violet:#5566E8;--mint:#12A894;--peach:#C9803B;--rose:#F6D5DD;--roseInk:#9E4A63;
-    --card:#FFFFFF;--soft:#F4F6FB;--bg:#EAEDF7;
-    --display:"Gabarito",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    --ink:#131B2E;--ink2:#46536B;--ink3:#6C7890;--line:rgba(19,27,46,.10);
+    --violet:#5566E8;--lilac:#B9C2FF;--mint:#12A894;--mintSoft:#CDEBE2;--rose:#F6D5DD;--roseInk:#9E4A63;--amber:#E7A24A;
+    --card:#FFFFFF;--cardGlass:rgba(255,255,255,.72);--bg:#EEF0FA;
+    --meshA:#C9D3FF;--meshB:#BFF0E2;--meshC:#E6D8FF;--meshD:#FFE2D0;
+    --display:"Jost","Futura","Avenir Next",-apple-system,BlinkMacSystemFont,sans-serif;
     --text:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    --mono:"DM Mono",ui-monospace,Menlo,monospace;
+    --shadow:0 18px 50px rgba(48,62,130,.14);
   }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){--ink:#EEF2FA;--ink2:#AEB9CC;--ink3:#8691A8;--line:rgba(238,242,250,.12);--card:#141B2B;--cardGlass:rgba(20,27,43,.72);--bg:#0B1020;
+      --meshA:#1D2A57;--meshB:#0F3A36;--meshC:#291F49;--meshD:#3A2430;--rose:#3A2A33;--roseInk:#FFD9E3;--shadow:0 18px 50px rgba(0,0,0,.35)}
+  }
+  :root[data-theme="dark"]{--ink:#EEF2FA;--ink2:#AEB9CC;--ink3:#8691A8;--line:rgba(238,242,250,.12);--card:#141B2B;--cardGlass:rgba(20,27,43,.72);--bg:#0B1020;
+    --meshA:#1D2A57;--meshB:#0F3A36;--meshC:#291F49;--meshD:#3A2430;--rose:#3A2A33;--roseInk:#FFD9E3;--shadow:0 18px 50px rgba(0,0,0,.35)}
+
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;font-family:var(--text);color:var(--ink);background:var(--bg);
-    background-image:radial-gradient(60% 45% at 8% 0%,#C9D3FF 0%,transparent 62%),radial-gradient(52% 42% at 96% 8%,#BFF0E2 0%,transparent 60%),radial-gradient(58% 48% at 82% 98%,#E6D8FF 0%,transparent 62%),radial-gradient(42% 38% at 6% 92%,#FFE2D0 0%,transparent 60%);
-    background-attachment:fixed;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-  header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:26px 0 8px}
-  .logo{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.3px}
-  nav a{color:var(--ink2);text-decoration:none;margin-left:20px;font-size:15px}
+  body{margin:0;font-family:var(--text);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(55% 45% at 6% 0%,var(--meshA) 0%,transparent 62%),radial-gradient(50% 42% at 98% 6%,var(--meshB) 0%,transparent 60%),radial-gradient(58% 48% at 84% 100%,var(--meshC) 0%,transparent 62%),radial-gradient(44% 38% at 0% 96%,var(--meshD) 0%,transparent 60%)}
+  a{color:inherit}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+  .mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:20;backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);background:color-mix(in srgb,var(--bg) 62%,transparent);border-bottom:1px solid var(--line)}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+  .mark{font-family:var(--display);font-weight:600;letter-spacing:.32em;font-size:14px;text-decoration:none;display:flex;gap:.6em}
+  .mark b{font-weight:700}
+  nav{display:flex;gap:22px;align-items:center}
+  nav a{text-decoration:none;color:var(--ink2);font-size:14.5px}
   nav a:hover{color:var(--ink)}
-  .eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
-  h1{font-family:var(--display);font-size:clamp(34px,5.2vw,54px);line-height:1.05;letter-spacing:-1px;margin:14px 0 18px;text-wrap:balance;max-width:16ch}
-  h2{font-family:var(--display);font-size:clamp(24px,3vw,32px);line-height:1.12;letter-spacing:-.6px;margin:0 0 10px;text-wrap:balance}
-  h3{font-family:var(--display);font-size:18px;margin:0 0 8px;letter-spacing:-.2px}
-  p{line-height:1.55;color:var(--ink2);margin:0 0 14px}
-  .deck{font-size:clamp(17px,2vw,20px);max-width:56ch}
-  .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center;padding:26px 0 8px}
-  .shot{border-radius:30px;box-shadow:0 26px 60px rgba(40,56,120,.20);width:100%;display:block;background:var(--soft)}
-  .phone{max-width:290px;margin:0 auto}
-  .btn{display:inline-block;background:var(--rose);color:var(--roseInk);font-family:var(--display);font-weight:700;padding:15px 26px;border-radius:999px;text-decoration:none;box-shadow:0 12px 26px rgba(120,70,92,.20)}
-  .btn:hover{transform:translateY(-1px)}
-  .btn.ghost{background:#fff;color:var(--ink);box-shadow:0 10px 24px rgba(58,74,138,.12)}
-  .cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
-  section{padding:56px 0}
-  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:22px;counter-reset:s}
-  .step{background:var(--card);border-radius:24px;padding:20px 20px 22px;box-shadow:0 12px 30px rgba(58,74,138,.10)}
-  .step .n{width:28px;height:28px;border-radius:10px;background:var(--violet);color:#fff;font-family:var(--display);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
-  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:22px}
-  .card{background:var(--card);border-radius:24px;padding:22px;box-shadow:0 12px 30px rgba(58,74,138,.10)}
-  .card p{margin:0;font-size:15px}
-  .card .tag{display:inline-block;font-size:11px;font-family:ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);background:rgba(18,168,148,.10);border-radius:999px;padding:4px 10px;margin-bottom:10px}
-  .split{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
-  .split.rev .text{order:2}
-  .numbers{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:22px}
-  .num{background:var(--card);border-radius:20px;padding:18px;box-shadow:0 12px 30px rgba(58,74,138,.10)}
-  .num b{font-family:var(--display);font-size:30px;display:block;letter-spacing:-.6px}
-  .num span{color:var(--ink3);font-size:14px}
-  .note{background:var(--card);border-radius:20px;padding:18px 20px;color:var(--ink2);font-size:14.5px;line-height:1.55}
-  details{background:var(--card);border-radius:18px;padding:14px 18px;margin-bottom:10px;box-shadow:0 8px 22px rgba(58,74,138,.08)}
-  summary{font-family:var(--display);font-size:16px;cursor:pointer;list-style:none}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);text-decoration:none;font-family:var(--display);font-weight:600;font-size:14px;padding:10px 18px;border-radius:999px;transition:transform .2s ease}
+  .pill:hover{transform:translateY(-1px)}
+  @media (max-width:760px){nav a:not(.pill){display:none}}
+
+  /* Hero */
+  .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:24px;align-items:center;padding:34px 0 10px;min-height:min(760px,calc(100vh - 64px))}
+  .word{font-family:var(--display);font-weight:700;letter-spacing:.34em;line-height:.95;font-size:clamp(40px,7.2vw,92px);margin:14px 0 0;margin-right:-.34em}
+  .word span{display:block}
+  .word .light{font-weight:400;color:transparent;-webkit-text-stroke:1.4px var(--ink);letter-spacing:.34em}
+  h1{font-family:var(--text);font-weight:600;font-size:clamp(20px,2.3vw,27px);line-height:1.25;letter-spacing:-.3px;margin:26px 0 12px;max-width:26ch;text-wrap:balance}
+  .deck{font-size:clamp(16px,1.6vw,18px);line-height:1.6;color:var(--ink2);max-width:52ch;margin:0 0 26px}
+  .cta{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:600;font-size:16px;padding:15px 26px;border-radius:999px;transition:transform .2s ease,box-shadow .2s ease}
+  .btn.cream{background:linear-gradient(180deg,#FFEFF3 0%,#F6D5DD 100%);color:#8E3F57;box-shadow:0 14px 30px rgba(158,74,99,.22),inset 0 1px 0 rgba(255,255,255,.8)}
+  .btn.glass{background:var(--cardGlass);color:var(--ink);box-shadow:var(--shadow);border:1px solid var(--line)}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:focus-visible,.pill:focus-visible,summary:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+  .stage{position:relative;height:clamp(420px,62vh,640px)}
+  #lab{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .tag{position:absolute;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);background:var(--cardGlass);border:1px solid var(--line);border-radius:999px;padding:6px 11px;white-space:nowrap;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .tag i{font-style:normal;color:var(--violet)}
+  .t1{top:8%;left:4%}.t2{top:46%;right:0}.t3{bottom:6%;left:10%}
+  @media (max-width:880px){.hero{grid-template-columns:1fr;min-height:0;padding-top:24px}.stage{height:420px}.t2{right:4%}}
+
+  /* Ingredient-list band */
+  .band{margin:34px 0 0;border-block:1px solid var(--line);overflow:hidden;background:var(--cardGlass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .band .row{display:flex;width:max-content;animation:slide 60s linear infinite}
+  .band span{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--ink2);padding:15px 0;white-space:nowrap}
+  .band b{color:var(--violet);font-weight:500;padding:0 14px}
+  @keyframes slide{to{transform:translateX(-50%)}}
+
+  /* Sections */
+  section{padding:84px 0}
+  h2{font-family:var(--display);font-weight:600;font-size:clamp(28px,3.6vw,44px);line-height:1.08;letter-spacing:-.5px;margin:10px 0 14px;text-wrap:balance;max-width:20ch}
+  h3{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:-.1px;margin:0 0 8px}
+  p{line-height:1.6;color:var(--ink2);margin:0 0 14px}
+
+  /* The formula: answers + scan = plan */
+  .formula{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:14px;align-items:stretch;margin-top:34px}
+  .term{background:var(--cardGlass);border:1px solid var(--line);border-radius:26px;padding:24px;box-shadow:var(--shadow);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .term .mono{display:block;margin-bottom:14px}
+  .op{align-self:center;font-family:var(--display);font-size:40px;font-weight:400;color:var(--ink3)}
+  .term.result{background:linear-gradient(160deg,var(--violet),#7C6BF0 55%,#12A894 140%);color:#fff;border:0}
+  .term.result p,.term.result .mono{color:rgba(255,255,255,.82)}
+  @media (max-width:880px){.formula{grid-template-columns:1fr}.op{justify-self:center;font-size:30px;line-height:1}}
+
+  /* Screens */
+  .screens{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:40px}
+  .screen{display:flex;flex-direction:column;gap:14px}
+  .device{border-radius:34px;padding:9px;background:linear-gradient(160deg,#fff,#E7EAF6);box-shadow:var(--shadow);transition:transform .5s cubic-bezier(.2,.8,.25,1)}
+  .device img{display:block;width:100%;height:auto;border-radius:26px}
+  .screen:nth-child(2) .device{transform:translateY(28px)}
+  .screen:hover .device{transform:translateY(-6px) rotate(-.6deg)}
+  .screen:nth-child(2):hover .device{transform:translateY(20px) rotate(.6deg)}
+  .screen p{font-size:15px;margin:0}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .device{background:linear-gradient(160deg,#222B40,#141B2B)}}
+  :root[data-theme="dark"] .device{background:linear-gradient(160deg,#222B40,#141B2B)}
+  @media (max-width:880px){.screens{grid-template-columns:1fr;max-width:340px;margin-inline:auto}.screen:nth-child(2) .device{transform:none}}
+
+  /* Numbers */
+  .numbers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border-radius:26px;overflow:hidden;margin-top:34px;border:1px solid var(--line)}
+  .num{background:var(--card);padding:26px 22px}
+  .num b{display:block;font-family:var(--display);font-weight:600;font-size:clamp(32px,4vw,46px);letter-spacing:-.8px;font-variant-numeric:tabular-nums}
+  .num span{font-size:14px;color:var(--ink3)}
+  @media (max-width:760px){.numbers{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+  /* Evidence grades */
+  .grades{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 8px}
+  .grade{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;padding:9px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+  .grade i{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .split .device{max-width:330px;margin-inline:auto}
+  @media (max-width:880px){.split{grid-template-columns:1fr;gap:30px}}
+
+  /* Privacy */
+  .vault{border-radius:32px;padding:clamp(28px,5vw,56px);background:var(--ink);color:var(--bg);position:relative;overflow:hidden}
+  .vault h2{color:var(--bg)}
+  .vault p{color:color-mix(in srgb,var(--bg) 78%,transparent);max-width:58ch}
+  .vault .mono{color:color-mix(in srgb,var(--bg) 60%,transparent)}
+  .vault ul{list-style:none;padding:0;margin:22px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .vault li{border:1px solid color-mix(in srgb,var(--bg) 18%,transparent);border-radius:18px;padding:16px;font-size:14.5px;line-height:1.5;color:color-mix(in srgb,var(--bg) 82%,transparent)}
+  .vault li b{display:block;font-family:var(--display);font-weight:600;color:var(--bg);margin-bottom:4px}
+  .vault::after{content:"";position:absolute;right:-120px;top:-120px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(185,194,255,.55),rgba(18,168,148,.18) 60%,transparent 70%);filter:blur(8px)}
+  @media (max-width:760px){.vault ul{grid-template-columns:1fr}}
+
+  /* FAQ */
+  .faq{max-width:780px}
+  details{border-bottom:1px solid var(--line);padding:18px 2px}
+  summary{font-family:var(--display);font-weight:500;font-size:18px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px}
   summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";float:right;color:var(--ink3)}
-  details[open] summary::after{content:"–"}
-  details p{margin:10px 0 2px;font-size:15px}
-  footer{padding:40px 0 60px;color:var(--ink3);font-size:13.5px;line-height:1.8;border-top:1px solid var(--line);margin-top:30px}
+  summary::after{content:"+";color:var(--ink3);font-weight:400;transition:transform .2s ease}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{margin:12px 0 0;font-size:15.5px;max-width:64ch}
+
+  .closing{text-align:center;padding:90px 0 70px}
+  .closing h2{margin-inline:auto}
+  .closing .cta{justify-content:center}
+  .note{font-size:13.5px;color:var(--ink3);max-width:70ch;margin:40px auto 0;line-height:1.6}
+  footer{border-top:1px solid var(--line);padding:30px 0 50px;font-size:13.5px;color:var(--ink3);line-height:1.9}
   footer a{color:var(--ink2)}
-  @media (max-width:840px){.hero,.split{grid-template-columns:1fr}.split.rev .text{order:0}.phone{max-width:250px}}
-  @media (prefers-color-scheme:dark){
-    :root:not([data-theme="light"]){--ink:#EAF1F9;--ink2:#A9B6C9;--ink3:#8593A8;--line:#26304A;--card:#151C2C;--soft:#1B2334;--bg:#0C1220;--rose:#3A2A33;--roseInk:#FFD9E3}
-    :root:not([data-theme="light"]) body{background-image:radial-gradient(60% 45% at 8% 0%,#1D2A57 0%,transparent 62%),radial-gradient(52% 42% at 96% 8%,#0F3A36 0%,transparent 60%),radial-gradient(58% 48% at 82% 98%,#291F49 0%,transparent 62%)}
-    :root:not([data-theme="light"]) .btn.ghost{background:#1B2334;color:#EAF1F9}
-  }
+  @media (prefers-reduced-motion:reduce){.band .row{animation:none}.device,.btn,.pill{transition:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="logo">SkinFormula</div>
-    <nav><a href="#how">How it works</a><a href="#inside">Inside</a><a href="privacy.html">Privacy</a><a href="support.html">Support</a></nav>
-  </header>
-
-  <div class="hero">
-    <div>
-      <div class="eyebrow">For iPhone · in testing</div>
-      <h1>A skin plan that recommends less, not more.</h1>
-      <p class="deck">SkinFormula reads your skin from a scan and your answers, then says which nights get an active, at what strength, and what to skip. Every claim carries its evidence grade. "You already own enough" is a valid answer.</p>
-      <div class="cta-row">
-        <a class="btn" href="support.html#testflight">Join the test on TestFlight</a>
-        <a class="btn ghost" href="privacy.html">How your data is handled</a>
-      </div>
-    </div>
-    <div><img class="shot phone" src="img/today.jpg" alt="The Today screen: today's ultraviolet index, tonight's routine and the week ahead" loading="eager" width="900" height="1957"></div>
+<header>
+  <div class="wrap">
+    <a class="mark" href="#top" aria-label="SkinFormula home"><b>SKIN</b><span>FORMULA</span></a>
+    <nav><a href="#how">How it works</a><a href="#inside">Inside</a><a href="#evidence">Evidence</a><a href="privacy.html">Privacy</a><a class="pill" href="support.html#testflight">Get the app</a></nav>
   </div>
+</header>
 
-  <section id="how">
-    <div class="eyebrow">How it works</div>
-    <h2>Three steps, then it gets out of the way.</h2>
-    <p class="deck">The plan is built once and adjusts as your scans change. Nothing is bought until the app can say why.</p>
-    <div class="steps">
-      <div class="step"><div class="n">1</div><h3>Answer, once</h3><p>Age, concerns, sensitivity, pregnancy, medicines and what you already use. Each answer changes the plan, and the app shows how.</p></div>
-      <div class="step"><div class="n">2</div><h3>Scan your face</h3><p>Three photos in daylight, plus a left and right view. Redness, oil, pigment, texture, pores and lines are measured on the phone. If the light is wrong, the scan refuses to run.</p></div>
-      <div class="step"><div class="n">3</div><h3>Follow the week</h3><p>Morning and evening in fixed slots, active nights spaced by what your barrier can take, with recovery nights in between.</p></div>
-    </div>
-  </section>
-
-  <section id="inside">
-    <div class="eyebrow">Inside the app</div>
-    <h2>What it actually does</h2>
-    <div class="features">
-      <div class="card"><span class="tag">Plan</span><h3>A routine, not a shopping list</h3><p>Pregnancy removes retinoids and strong acids. Reactive skin gets fewer active nights. A retinoid user does not also get acids. The reasons are written in plain words.</p></div>
-      <div class="card"><span class="tag">Chat</span><h3>Send a photo of your blood test</h3><p>The values are read on the phone. The app explains what each one means for skin, then suggests what is worth checking next, in order, never all at once.</p></div>
-      <div class="card"><span class="tag">Products</span><h3>One photo of the pack</h3><p>The ingredient list is read on the phone and judged against your skin and your plan. No barcode, no typing.</p></div>
-      <div class="card"><span class="tag">Clinic</span><h3>Procedures ranked for you</h3><p>What the scan points to, with evidence grades, and anything your answers rule out moved aside with the reason. Book a course and the app pauses your retinoid around each visit.</p></div>
-      <div class="card"><span class="tag">Progress</span><h3>Photos that line up</h3><p>Every scan keeps a photo aligned on your eyes, so a before-and-after slider shows the skin changing, not the camera moving.</p></div>
-      <div class="card"><span class="tag">Shelf</span><h3>It can tell you to stop buying</h3><p>The shelf audit finds two products doing the same job, the job nothing covers, and what has expired. When everything is covered, it says so.</p></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="split">
-      <div class="text">
-        <div class="eyebrow">Evidence</div>
-        <h2>Graded, sourced, and honest about the gaps.</h2>
-        <p>Every article and every knowledge-base entry carries a grade: strong, moderate, weak, myth or not studied. Where the evidence is thin, it says so instead of filling the space with confidence.</p>
-        <p>The library keeps growing: new articles are added every week, written the same way and graded the same way, and they arrive in the app without you doing anything.</p>
-        <p>Procedures are written the way a good clinic explains them: what it is used for, how it works, the expected result, downtime, risks, who should not have it, how many sessions, at what interval, and what maintenance costs.</p>
-        <div class="numbers">
-          <div class="num"><b>51</b><span>articles with sources, and growing</span></div>
-          <div class="num"><b>17</b><span>knowledge-base sections</span></div>
-          <div class="num"><b>33</b><span>blood markers explained</span></div>
+<main id="top">
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <div class="mono">For iPhone · in testing · 6 languages</div>
+        <p class="word" aria-hidden="true"><span>SKIN</span><span class="light">FORMULA</span></p>
+        <h1>A skin plan that recommends less, not more.</h1>
+        <p class="deck">Your answers and a face scan become one formula: which nights get an active, at what strength, what to skip, and when a clinic or a doctor makes sense. Every claim carries its evidence grade. "You already own enough" is a valid answer.</p>
+        <div class="cta">
+          <a class="btn cream" href="support.html#testflight">Join the test on TestFlight</a>
+          <a class="btn glass" href="#how">See how it works</a>
         </div>
       </div>
-      <div><img class="shot" src="img/knowledge.jpg" alt="The cosmetic ingredients section, each ingredient graded by evidence" loading="lazy" width="900" height="1957"></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="split rev">
-      <div class="text">
-        <div class="eyebrow">Privacy</div>
-        <h2>It stays on your phone.</h2>
-        <p>No account, no cloud. Photos, scores, answers, blood values and the chat live on the device, and deleting the app deletes them.</p>
-        <p>Three things leave the phone, and only when you ask: your rounded location for today's ultraviolet index, a product name when a lookup is needed, and the doctor's report when you choose to share it.</p>
-        <a class="btn ghost" href="privacy.html">Read the privacy policy</a>
+      <div class="stage" aria-hidden="true">
+        <canvas id="lab"></canvas>
+        <span class="tag t1"><i>●</i> Retinal 0.05% · retinoid night</span>
+        <span class="tag t2"><i>●</i> Barrier · ceramides NP, AP, EOP</span>
+        <span class="tag t3"><i>●</i> Evidence · strong</span>
       </div>
-      <div><img class="shot" src="img/chat.jpg" alt="The chat explaining blood test values and what to check next" loading="lazy" width="900" height="1957"></div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <div class="eyebrow">Questions</div>
-    <h2>Before you ask</h2>
-    <details><summary>Is the scan real, or a guess?</summary><p>Real, and limited. The camera measures colour, shine, texture, pores and lines on the phone, in regions set by your own face. It cannot measure hydration or elasticity, so those come from your answers and are labelled that way. A change under five points between scans is noise.</p></details>
-    <details><summary>Does it diagnose anything?</summary><p>No. It sorts findings into home care, professional cosmetology, dermatologist or medical attention, and says when something belongs with a doctor. It never names a disease.</p></details>
-    <details><summary>Is the chat an AI that knows everything?</summary><p>No. It answers from the app's own graded knowledge base and your data, on the phone. That is why it can say "I do not know" instead of inventing an answer.</p></details>
-    <details><summary>What does it cost?</summary><p>During testing, everything is free. Later there will be one clearly named subscription, with the scan, the routine, the calendar and the whole knowledge base staying free.</p></details>
-    <details><summary>Does the content stay the same?</summary><p>No. New articles are added every week, and existing ones are updated when the evidence moves. Anything that changes keeps its sources and its grade, so you can see what it rests on.</p></details>
-    <details><summary>Which languages?</summary><p>The interface is in English, German, French, Italian, Spanish and Russian. Articles and the knowledge base are in English for now.</p></details>
-  </section>
+  <div class="band" aria-hidden="true">
+    <div class="row">
+      <span>AQUA<b>/</b>GLYCERIN<b>/</b>NIACINAMIDE<b>/</b>CERAMIDE NP<b>/</b>CERAMIDE AP<b>/</b>CERAMIDE EOP<b>/</b>SQUALANE<b>/</b>AZELAIC ACID<b>/</b>RETINAL<b>/</b>TRANEXAMIC ACID<b>/</b>PANTHENOL<b>/</b>SODIUM HYALURONATE<b>/</b>CHOLESTEROL<b>/</b>ZINC OXIDE<b>/</b>BIS-ETHYLHEXYLOXYPHENOL METHOXYPHENYL TRIAZINE<b>/</b>ALLANTOIN<b>/</b></span>
+      <span>AQUA<b>/</b>GLYCERIN<b>/</b>NIACINAMIDE<b>/</b>CERAMIDE NP<b>/</b>CERAMIDE AP<b>/</b>CERAMIDE EOP<b>/</b>SQUALANE<b>/</b>AZELAIC ACID<b>/</b>RETINAL<b>/</b>TRANEXAMIC ACID<b>/</b>PANTHENOL<b>/</b>SODIUM HYALURONATE<b>/</b>CHOLESTEROL<b>/</b>ZINC OXIDE<b>/</b>BIS-ETHYLHEXYLOXYPHENOL METHOXYPHENYL TRIAZINE<b>/</b>ALLANTOIN<b>/</b></span>
+    </div>
+  </div>
 
-  <section>
-    <div class="note">SkinFormula is a wellbeing tool, not a medical device. It does not diagnose. Anything that changes shape, colour or size, bleeds, or does not heal in four weeks belongs with a doctor.</div>
-  </section>
+  <div class="wrap">
+    <section id="how">
+      <div class="mono">How it works</div>
+      <h2>Your answers, plus a scan, equals your plan.</h2>
+      <p style="max-width:60ch">The plan is built once, then re-weighted every time you scan. Nothing is added until the app can say why, and it changes as your skin does.</p>
+      <div class="formula">
+        <div class="term"><span class="mono">01 · Answers</span><h3>Tell it once</h3><p>Age, what bothers you, how your skin reacts to sun, pregnancy, medicines, and what you already use. Each answer changes the plan, and the app shows how.</p></div>
+        <div class="op" aria-hidden="true">+</div>
+        <div class="term"><span class="mono">02 · Scan</span><h3>Two minutes in daylight</h3><p>Redness, oil, pigment, texture, pores and lines are measured on the phone. If the light is wrong, the scan says so instead of guessing.</p></div>
+        <div class="op" aria-hidden="true">=</div>
+        <div class="term result"><span class="mono">03 · Your formula</span><h3>The week, night by night</h3><p>Active nights spaced by what your barrier can take, recovery nights in between, your own products in the right slots, and a clinic calendar when it earns its place.</p></div>
+      </div>
+    </section>
 
-  <footer>
+    <section id="inside">
+      <div class="mono">Inside the app</div>
+      <h2>One photo, one scan, one honest answer.</h2>
+      <div class="screens">
+        <div class="screen">
+          <div class="device"><img src="img/today.jpg" alt="Today: tonight's routine, the ultraviolet index and the week ahead" width="900" height="1957" loading="lazy"></div>
+          <h3>Today</h3><p>Tonight's steps with your own bottles, the ultraviolet index where you are, and where you are in the plan.</p>
+        </div>
+        <div class="screen">
+          <div class="device"><img src="img/check.jpg" alt="Check a product: the verdict for your skin from one photo of the pack" width="900" height="1957" loading="lazy"></div>
+          <h3>Check a product</h3><p>Photograph the pack. Nearly two thousand products recognised, the label read on the phone, and a verdict for your skin, not for everyone's.</p>
+        </div>
+        <div class="screen">
+          <div class="device"><img src="img/procedures.jpg" alt="Procedures ranked for you, with evidence grades" width="900" height="1957" loading="lazy"></div>
+          <h3>Treatments for you</h3><p>What fits your age, skin type and scan, what is too early, how often to repeat it, and the products clinics use, compared.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="evidence">
+      <div class="split">
+        <div>
+          <div class="mono">Evidence</div>
+          <h2>Graded, sourced, and honest about the gaps.</h2>
+          <p>Every ingredient, procedure and article carries a grade. Where the research is thin, the app says so instead of filling the space with confidence. The library keeps growing, and every addition is graded the same way.</p>
+          <div class="grades" aria-label="Evidence grades">
+            <span class="grade"><i style="background:#12A894"></i>Strong</span>
+            <span class="grade"><i style="background:#CF9B4B"></i>Moderate</span>
+            <span class="grade"><i style="background:#E07570"></i>Weak</span>
+            <span class="grade"><i style="background:#8A7CF0"></i>Myth</span>
+            <span class="grade"><i style="background:#9AA3B8"></i>Not studied</span>
+          </div>
+        </div>
+        <div class="device"><img src="img/knowledge.jpg" alt="The ingredient library, each ingredient graded by its evidence" width="900" height="1957" loading="lazy"></div>
+      </div>
+      <div class="numbers">
+        <div class="num"><b>1,825</b><span>products checked against their published ingredient lists</span></div>
+        <div class="num"><b>117</b><span>ingredient cards with sources</span></div>
+        <div class="num"><b>17</b><span>knowledge-base sections</span></div>
+        <div class="num"><b>33</b><span>blood markers explained for skin</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="vault">
+        <div class="mono">Privacy</div>
+        <h2>It stays on your phone.</h2>
+        <p>No account and no cloud. Photos, scores, answers, blood values, clinics and the chat live on the device. A backup is a file you save where you choose.</p>
+        <ul>
+          <li><b>Your location, rounded</b>Only for today's ultraviolet index, and only when you allow it.</li>
+          <li><b>A product name</b>When a lookup in the public ingredient database is needed.</li>
+          <li><b>Your report</b>For a dermatologist, only when you share it yourself.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="faq">
+      <div class="mono">Questions</div>
+      <h2>Before you ask</h2>
+      <details><summary>Is the scan real, or a guess?</summary><p>Real, and limited. The camera measures colour, shine, texture, pores and lines on the phone. It cannot measure hydration or elasticity, so those come from your answers and are labelled that way. A change under five points between scans is noise.</p></details>
+      <details><summary>Does it diagnose anything?</summary><p>No. It sorts findings into home care, professional cosmetology, a dermatologist, or a doctor soon, and it never names a disease.</p></details>
+      <details><summary>Will it tell me which procedures to have?</summary><p>It tells you what fits your age, skin type and scan, what is too early, and how often a treatment is usually repeated. The practitioner has the last word; the app helps you ask the right questions.</p></details>
+      <details><summary>Which languages?</summary><p>English, German, French, Italian, Spanish and Russian. The knowledge-base articles are in English for now.</p></details>
+      <details><summary>What does it cost?</summary><p>During testing, everything is free. Later there will be one clearly named subscription, SkinFormula Pro. The scan, the routine, the calendar and the whole knowledge base stay free.</p></details>
+    </section>
+
+    <section class="closing">
+      <div class="mono">SkinFormula for iPhone</div>
+      <h2>Fewer products. Better skin. A reason for every step.</h2>
+      <div class="cta" style="margin-top:24px">
+        <a class="btn cream" href="support.html#testflight">Join the test on TestFlight</a>
+      </div>
+      <p class="note">SkinFormula is a wellbeing tool, not a medical device. It does not diagnose. Anything that changes shape, colour or size, bleeds, or does not heal in four weeks belongs with a doctor.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
     © 2026 SkinFormula · <a href="privacy.html">Privacy policy</a> · <a href="terms.html">Terms</a> · <a href="support.html">Support</a> · <a href="mailto:hello@skinformula.app">hello@skinformula.app</a><br>
-    Ingredient data from Open Beauty Facts (ODbL). Weather from Open-Meteo. Text and face reading use Apple's on-device Vision framework.
-  </footer>
-</div>
+    Ingredient data from Open Beauty Facts (ODbL). Weather from Open-Meteo. Label and face reading use Apple's on-device Vision framework.
+  </div>
+</footer>
+
+<script>
+/* The lab: a glass dropper releases serum drops into a ribbon of cream, beside a turning DNA helix of
+   glossy beads. Canvas 2D, one loop, paused when off screen; a single still frame with reduced motion. */
+(() => {
+  const canvas = document.getElementById('lab');
+  const ctx = canvas.getContext('2d');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const dark = () => document.documentElement.dataset.theme === 'dark' || (document.documentElement.dataset.theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+  let W = 0, H = 0, dpr = 1, running = true, px = 0, py = 0, tx = 0, ty = 0;
+
+  function size() {
+    const r = canvas.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = r.width; H = r.height;
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  addEventListener('resize', size); size();
+  canvas.parentElement.addEventListener('pointermove', (e) => { const r = canvas.getBoundingClientRect(); tx = (e.clientX - r.left) / r.width - .5; ty = (e.clientY - r.top) / r.height - .5; });
+  canvas.parentElement.addEventListener('pointerleave', () => { tx = 0; ty = 0; });
+  new IntersectionObserver(([e]) => { running = e.isIntersecting; if (running && !still) requestAnimationFrame(frame); }).observe(canvas);
+
+  // Layout, relative to the stage
+  const L = () => ({ tipX: W * .38 + px * 10, tipY: Math.max(H * .44, 230) + py * 6, poolY: H * .80, helixX: W * .80 + px * 22, helixTop: H * .05, helixBot: H * .95, R: Math.min(W * .11, 62) });
+
+  // Drops
+  const drops = [];
+  let forming = 0;
+  const ripples = [];
+  function spawn() { drops.push({ x: 0, y: 0, vy: 0, r: 7 + Math.random() * 2.5, hue: Math.random() < .5 ? 'amber' : 'rose', wob: Math.random() * 6 }); }
+
+  function sphere(x, y, r, c1, c2, a = 1) {
+    const g = ctx.createRadialGradient(x - r * .35, y - r * .4, r * .1, x, y, r);
+    g.addColorStop(0, `rgba(255,255,255,${.95 * a})`); g.addColorStop(.28, c1); g.addColorStop(1, c2);
+    ctx.globalAlpha = a; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1;
+  }
+
+  function drawHelix(t, l) {
+    const n = 22, span = l.helixBot - l.helixTop, beads = [];
+    for (let i = 0; i < n; i++) {
+      const y = l.helixTop + (i / (n - 1)) * span;
+      const a = t * .7 + i * .42;
+      for (const s of [0, Math.PI]) {
+        const z = Math.sin(a + s), x = l.helixX + Math.cos(a + s) * l.R * (1 + py * .1);
+        beads.push({ x, y, z, s, i });
+      }
+    }
+    // rungs behind the beads, faded by depth
+    for (let i = 0; i < n; i++) {
+      const p = beads.filter((b) => b.i === i);
+      const d = (p[0].z + p[1].z) / 2;
+      const g = ctx.createLinearGradient(p[0].x, 0, p[1].x, 0);
+      g.addColorStop(0, 'rgba(85,102,232,.55)'); g.addColorStop(1, 'rgba(18,168,148,.55)');
+      ctx.strokeStyle = g; ctx.globalAlpha = .35 + (d + 1) * .2; ctx.lineWidth = 2.2; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(p[0].x, p[0].y); ctx.lineTo(p[1].x, p[1].y); ctx.stroke(); ctx.globalAlpha = 1;
+    }
+    beads.sort((a, b) => a.z - b.z);
+    for (const b of beads) {
+      const r = 6.5 + (b.z + 1) * 3.2, a = .45 + (b.z + 1) * .27;
+      if (b.s === 0) sphere(b.x, b.y, r, 'rgba(160,172,255,1)', 'rgba(85,102,232,1)', a);
+      else sphere(b.x, b.y, r, 'rgba(150,230,210,1)', 'rgba(18,168,148,1)', a);
+    }
+  }
+
+  function drawCream(t, l) {
+    // A ribbon of cream, two layers, gently folding; drops land in it.
+    const y0 = l.poolY, left = W * .02, right = W * .66;
+    for (const layer of [0, 1, 2]) {
+      ctx.beginPath();
+      const amp = [16, 12, 8][layer], th = [64, 44, 26][layer], off = [0, 1.7, 3.1][layer];
+      for (let x = left; x <= right; x += 6) {
+        const k = (x - left) / (right - left);
+        const y = y0 + Math.sin(k * 4.2 + t * .8 + off) * amp * Math.sin(k * Math.PI) - layer * 20;
+        x === left ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      for (let x = right; x >= left; x -= 6) {
+        const k = (x - left) / (right - left);
+        const y = y0 + Math.sin(k * 4.2 + t * .8 + off + .6) * amp * Math.sin(k * Math.PI) + th * Math.sin(k * Math.PI) - layer * 20;
+        ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      const g = ctx.createLinearGradient(0, y0 - 30, 0, y0 + 50);
+      const tones = [['#FFFFFF', '#E6E1F4'], ['#F4F7FF', '#CDD4FF'], ['#FFF3F6', '#F2C3D1']][layer];
+      g.addColorStop(0, tones[0]); g.addColorStop(1, tones[1]);
+      ctx.fillStyle = g; ctx.shadowColor = 'rgba(80,70,140,.18)'; ctx.shadowBlur = 24; ctx.shadowOffsetY = 10; ctx.fill();
+      ctx.shadowColor = 'transparent';
+      // sheen along the top edge
+      ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let x = left + 20; x <= right - 20; x += 6) {
+        const k = (x - left) / (right - left);
+        const y = y0 + Math.sin(k * 4.2 + t * .8 + off) * amp * Math.sin(k * Math.PI) - layer * 20 + 4;
+        x === left + 20 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.globalAlpha = .7; ctx.stroke(); ctx.globalAlpha = 1;
+    }
+  }
+
+  function drawDropper(l, grow) {
+    const x = l.tipX, y = l.tipY;
+    ctx.save(); ctx.translate(x, y); ctx.rotate(-.08);
+    // glass tube
+    const g = ctx.createLinearGradient(-9, 0, 9, 0);
+    g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(.45, 'rgba(210,218,255,.55)'); g.addColorStop(1, 'rgba(255,255,255,.85)');
+    ctx.fillStyle = g; ctx.strokeStyle = 'rgba(120,130,190,.35)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(-8, -150); ctx.lineTo(8, -150); ctx.lineTo(8, -34); ctx.quadraticCurveTo(4, -10, 2.2, 0); ctx.lineTo(-2.2, 0); ctx.quadraticCurveTo(-4, -10, -8, -34); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // serum inside
+    const s = ctx.createLinearGradient(0, -110, 0, 0);
+    s.addColorStop(0, 'rgba(231,162,74,.55)'); s.addColorStop(1, 'rgba(231,162,74,.9)');
+    ctx.fillStyle = s; ctx.beginPath(); ctx.moveTo(-6.5, -95); ctx.lineTo(6.5, -95); ctx.lineTo(6.5, -34); ctx.quadraticCurveTo(3, -10, 1.6, -2); ctx.lineTo(-1.6, -2); ctx.quadraticCurveTo(-3, -10, -6.5, -34); ctx.closePath(); ctx.fill();
+    // rubber bulb
+    const b = ctx.createRadialGradient(-6, -186, 4, 0, -176, 30);
+    b.addColorStop(0, '#FFE6EE'); b.addColorStop(.5, '#F2B8C8'); b.addColorStop(1, '#C97E96');
+    ctx.fillStyle = b; ctx.beginPath(); ctx.ellipse(0, -178, 17, 30, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#E8A9BB'; ctx.fillRect(-11, -156, 22, 8);
+    // the forming drop at the tip
+    if (grow > 0) {
+      const r = 3 + grow * 5.5;
+      const dg = ctx.createRadialGradient(-r * .3, r * .6, r * .1, 0, r, r * 1.3);
+      dg.addColorStop(0, 'rgba(255,255,255,.95)'); dg.addColorStop(.3, 'rgba(240,180,95,.9)'); dg.addColorStop(1, 'rgba(206,128,50,.95)');
+      ctx.fillStyle = dg; ctx.beginPath(); ctx.moveTo(0, 0); ctx.bezierCurveTo(r, r * .6, r, r * 2, 0, r * 2); ctx.bezierCurveTo(-r, r * 2, -r, r * .6, 0, 0); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function drawDrop(d) {
+    const r = d.r, x = d.x, y = d.y, stretch = Math.min(1.6, 1 + d.vy * .04);
+    ctx.save(); ctx.translate(x, y); ctx.scale(1 / Math.sqrt(stretch), stretch);
+    const c = d.hue === 'amber' ? ['rgba(240,180,95,.92)', 'rgba(206,128,50,.95)'] : ['rgba(246,190,208,.92)', 'rgba(201,126,150,.95)'];
+    const g = ctx.createRadialGradient(-r * .35, r * .2, r * .1, 0, r * .6, r * 1.3);
+    g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(.3, c[0]); g.addColorStop(1, c[1]);
+    ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(0, -r * 1.2); ctx.bezierCurveTo(r, -r * .2, r, r * 1.1, 0, r * 1.1); ctx.bezierCurveTo(-r, r * 1.1, -r, -r * .2, 0, -r * 1.2); ctx.fill();
+    ctx.restore();
+  }
+
+  let last = performance.now(), t = 0;
+  function frame(now) {
+    if (!running && !still) return;
+    const dt = Math.min(.05, (now - last) / 1000); last = now; t += still ? 0 : dt;
+    px += (tx - px) * .06; py += (ty - py) * .06;
+    const l = L();
+    ctx.clearRect(0, 0, W, H);
+
+    // soft floating bubbles: encapsulated actives
+    for (let i = 0; i < 14; i++) {
+      const bx = (W * (.08 + ((i * 37) % 100) / 115) + Math.sin(t * .3 + i) * 12 + px * 30 * (i % 3)) % W;
+      const by = H - ((t * (8 + i % 5 * 3) + i * 57) % (H + 40)) + 20;
+      ctx.globalAlpha = .35; ctx.strokeStyle = 'rgba(130,140,220,.6)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(bx, by, 3 + (i % 4), 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1;
+    }
+
+    drawHelix(t, l);
+    drawCream(t, l);
+
+    // drops: form at the tip, fall, land in the cream with a ripple
+    if (!still) {
+      forming += dt / 1.6;
+      if (forming >= 1) { forming = 0; spawn(); const d = drops[drops.length - 1]; d.x = l.tipX; d.y = l.tipY + 14; }
+      for (const d of drops) { d.vy += 420 * dt; d.y += d.vy * dt; d.x += Math.sin(t * 3 + d.wob) * .15; }
+      for (let i = drops.length - 1; i >= 0; i--) if (drops[i].y > l.poolY - 6) { ripples.push({ x: drops[i].x, y: l.poolY - 4, r: 2, a: .9 }); drops.splice(i, 1); }
+    } else if (!drops.length) { drops.push({ x: l.tipX, y: l.tipY + 90, vy: 6, r: 8, hue: 'amber', wob: 0 }); forming = .6; }
+    for (const d of drops) drawDrop(d);
+    drawDropper(l, forming);
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const rp = ripples[i]; rp.r += 38 * dt; rp.a -= .9 * dt;
+      if (rp.a <= 0) { ripples.splice(i, 1); continue; }
+      ctx.strokeStyle = `rgba(158,74,99,${rp.a * .5})`; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.ellipse(rp.x, rp.y, rp.r, rp.r * .28, 0, 0, Math.PI * 2); ctx.stroke();
+    }
+    if (!still) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
 </body>
 </html>
