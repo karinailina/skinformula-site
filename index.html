@@ -367,15 +367,18 @@
   const chips = [...document.querySelectorAll('.chip')], pct = document.getElementById('pct');
   let W = 0, H = 0, running = true, t0 = performance.now(), last = 0;
   function size() { const r = c.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; c.width = W * d; c.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0); }
-  addEventListener('resize', size); size();
-  new IntersectionObserver(([e]) => { running = e.isIntersecting; if (running && !still) { t0 = performance.now() - last * 1000; requestAnimationFrame(frame); } }).observe(c);
+  // with reduced motion the face is drawn once, still, whenever the phone gets its size
+  addEventListener('resize', () => { size(); if (still) requestAnimationFrame(frame); }); size();
+  addEventListener('load', () => { size(); if (still) requestAnimationFrame(frame); });
+  new IntersectionObserver(([e]) => { running = e.isIntersecting; if (running) { size(); t0 = performance.now() - last * 1000; requestAnimationFrame(frame); } }).observe(c);
   function frame(now) {
     if (!running && !still) return;
+    if (!W || !H) size();
     const t = still ? 3 : (now - t0) / 1000; last = t;
     const yaw = Math.sin(t * .4) * .32, cy = Math.cos(yaw), sy = Math.sin(yaw);
     const s = Math.min(W * .44, H * .27), ox = W / 2, oy = H * .43;
     for (let i = 0; i < N; i++) { const x = V[i * 3], y = V[i * 3 + 1], z = V[i * 3 + 2]; P[i * 3] = ox + (x * cy + z * sy) * s; P[i * 3 + 1] = oy - y * s; P[i * 3 + 2] = -x * sy + z * cy; }
-    const cycle = 6.5, k = (t % cycle) / 4.6, beam = k <= 1 ? 1.05 - k * 2.1 : -2, beamY = oy - beam * s;
+    const cycle = 6.5, k = (t % cycle) / 4.6, beam = still ? -.2 : k <= 1 ? 1.05 - k * 2.1 : -2, beamY = oy - beam * s;
     ctx.clearRect(0, 0, W, H);
     ctx.lineWidth = .7;
     for (let j = 0; j < E.length; j += 2) {
@@ -393,8 +396,8 @@
       ctx.strokeStyle = g; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(W * .1, beamY); ctx.lineTo(W * .9, beamY); ctx.stroke();
     }
     const done = beam <= -1.5 ? 1 : Math.min(1, (1.05 - beam) / 2.1);
-    pct.textContent = beam <= -1.5 ? 'done' : `${Math.round(done * 100)}%`;
-    for (const ch of chips) { const on = beam <= -1.5 || beam < +ch.dataset.y; ch.classList.toggle('on', on); }
+    pct.textContent = still || beam <= -1.5 ? 'done' : `${Math.round(done * 100)}%`;
+    for (const ch of chips) { const on = still || beam <= -1.5 || beam < +ch.dataset.y; ch.classList.toggle('on', on); }
     if (!still) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
