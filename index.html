@@ -35,6 +35,9 @@
   /* The particle field sits behind everything and reshapes itself as you scroll. */
   #field{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;display:block}
   main,footer,.band{position:relative;z-index:1}
+  /* Textbook labels beside the skin block, placed from the 3D scene every frame */
+  .lbl{position:fixed;left:0;top:0;z-index:1;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .6s ease;will-change:transform}
+  .lbl::after{content:"";width:30px;height:1px;background:#AEB9C2}
   body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,rgba(255,255,255,0) 60%,rgba(232,238,243,.6) 100%)}
 
   /* Header */
@@ -180,6 +183,7 @@
 </head>
 <body>
 <canvas id="field" aria-hidden="true"></canvas>
+<div id="labels" aria-hidden="true"><span class="lbl">Epidermis</span><span class="lbl">Dermis</span><span class="lbl">Fat layer</span><span class="lbl">Hair follicle</span></div>
 
 <header id="hdr">
   <div class="wrap">
@@ -198,7 +202,7 @@
 
 <main>
   <div class="wrap">
-    <section class="chapter hero" id="top" data-shape="drop" data-side="right">
+    <section class="chapter hero" id="top" data-shape="skin" data-side="right">
       <div class="copy">
         <div class="mono rv">For iPhone · in testing · 6 languages</div>
         <h1 aria-label="A skin plan that recommends less, not more."><span class="w rv" style="--d:1">A</span> <span class="w rv" style="--d:2">skin</span> <span class="w rv" style="--d:3">plan</span> <span class="w rv" style="--d:4">that</span> <span class="w rv" style="--d:5">recommends</span> <span class="w rv" style="--d:6">less,</span> <span class="w rv" style="--d:7">not</span> <span class="w rv" style="--d:8">more.</span></h1>
@@ -336,7 +340,7 @@
       </div>
     </section>
 
-    <section class="chapter closing" data-shape="drop" data-side="center">
+    <section class="chapter closing" data-shape="skin" data-side="center">
       <div class="copy">
         <div class="mono rv">SkinFormula for iPhone</div>
         <h2 class="rv" style="--d:1">Fewer products. Better skin. A reason for every step.</h2>
@@ -389,7 +393,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 /* The particle field. About 2,600 points share one set of positions; every chapter names a shape
-   (a serum drop, your face, a dropper bottle, the niacinamide molecule, a phone) and the points flow
+   (a block of skin in cross-section, your face, a dropper bottle, the niacinamide molecule, a phone) and the points flow
    to it as you scroll, each at its own pace. The face is the app's own mesh, lit by a scan line. */
 (() => {
   if (!window.THREE) return;
@@ -413,16 +417,43 @@
 
   const INK = hex('#1F3445'), STEEL = hex('#3C5E78'), SERUM = hex('#6FA3C7'), PALE = hex('#A9C8DD'), MIST = hex('#C9DAE6'), TEAL = hex('#2A7471'), ROSE = hex('#B8687C'), HYD = hex('#9FB3C2'), NBLUE = hex('#4A7FB0'), MINT = hex('#6CCBB2'), LILAC = hex('#A596EE');
 
-  // A serum drop: the classic teardrop, a glassy shell with a lighter body inside.
-  function drop() {
-    const s = make();
-    const R = (t) => .5 * (1 - Math.cos(t)) * Math.sin(t);
+  // A block of skin in cross-section, drawn like a textbook figure: the top is the skin surface with its fine
+  // relief; the two cut faces show the layers: cells of the epidermis, the wavy junction, collagen (lilac) and
+  // elastin (mint) in the dermis, round fat lobules below, and one hair follicle running down from the surface.
+  function skin() {
+    const s = make(), X = 1.2, Z = .62;
+    const TOP = (x, z) => .72 + .03 * Math.sin(x * 9) * Math.cos(z * 7) + .015 * Math.sin(x * 23 + z * 5);
+    const JUNC = (u) => .42 + .06 * Math.sin(u * 12);
+    // a point on one of the two visible cut faces: front (z = Z) or right side (x = X); u runs along the face
+    const onFace = (front, u, y, depth = 0) => front ? [u, y, Z - depth] : [X - depth, y, u];
+    const span = (front) => (front ? X : Z);
+    const faces = () => rnd() < .66;
+    const cells = []; for (let i = 0; i < 70; i++) { const f = faces(), u = (rnd() * 2 - 1) * span(f) * .97; cells.push([f, u, JUNC(u) + .06 + rnd() * .22, .035 + rnd() * .025]); }
+    const fat = []; for (let i = 0; i < 18; i++) { const f = faces(); fat.push([f, (rnd() * 2 - 1) * span(f) * .88, -.7 + (rnd() * 2 - 1) * .18, .1 + rnd() * .06]); }
+    const fibres = []; for (let i = 0; i < 34; i++) fibres.push([faces(), .3 - rnd() * .66, rnd() * 6, .025 + rnd() * .04, rnd() < .28]);
+    const FX = .5, FZ = .05;
     for (let i = 0; i < N; i++) {
-      let t; do { t = rnd() * Math.PI; } while (rnd() > R(t) / .65 + .04);
-      const a = rnd() * Math.PI * 2, inner = rnd() < .3, k = inner ? Math.cbrt(rnd()) * .92 : 1;
-      const x = Math.cos(a) * R(t) * 1.55 * k, z = Math.sin(a) * R(t) * 1.55 * k, y = Math.cos(t) * 1.05 * (inner ? k : 1) + .05;
-      const lit = !inner && x < -.2 && y > .0 && z > 0;
-      put(s, i, x, y, z, inner ? pick([PALE, MIST, MINT, LILAC]) : lit ? pick([PALE, MIST, MINT]) : pick([STEEL, SERUM, SERUM, INK, LILAC]));
+      const u = rnd();
+      if (u < .24) { const x = (rnd() * 2 - 1) * X, z = (rnd() * 2 - 1) * Z; put(s, i, x, TOP(x, z), z, pick([INK, INK, STEEL, STEEL, SERUM])); } // the surface
+      else if (u < .4) { // epidermis: cells on the cut faces
+        const c = cells[Math.floor(rnd() * cells.length)], a = rnd() * Math.PI * 2;
+        const p = onFace(c[0], c[1] + Math.cos(a) * c[3], c[2] + Math.sin(a) * c[3] * .8, rnd() * .01);
+        put(s, i, p[0], p[1], p[2], pick([SERUM, SERUM, STEEL, PALE]));
+      } else if (u < .47) { const f = faces(), w = (rnd() * 2 - 1) * span(f), p = onFace(f, w, JUNC(w)); put(s, i, p[0], p[1], p[2], pick([TEAL, TEAL, MINT])); } // the junction
+      else if (u < .72) { // dermis: wavy collagen and elastin threads along the faces
+        const fb = fibres[Math.floor(rnd() * fibres.length)], w = (rnd() * 2 - 1) * span(fb[0]), p = onFace(fb[0], w, fb[1] + Math.sin(w * 6 + fb[2]) * fb[3]);
+        put(s, i, p[0], p[1], p[2], fb[4] ? MINT : pick([LILAC, LILAC, ROSE]));
+      } else if (u < .86) { // hypodermis: round fat lobules
+        const c = fat[Math.floor(rnd() * fat.length)], a = rnd() * Math.PI * 2, p = onFace(c[0], c[1] + Math.cos(a) * c[3], c[2] + Math.sin(a) * c[3] * .85);
+        put(s, i, p[0], Math.max(-1, p[1]), p[2], pick([SERUM, PALE, PALE, STEEL]));
+      } else if (u < .92) { // the hair follicle and its hair
+        const k = rnd(), top = TOP(FX, FZ), y = k < .72 ? top - k / .72 * 1.2 : top + (k - .72) / .28 * .45, r = k < .72 ? .06 + (k > .62 ? .05 : 0) : .01, a = rnd() * Math.PI * 2, lean = Math.max(0, y - top) * .25;
+        put(s, i, FX + Math.cos(a) * r + lean, y, FZ + Math.sin(a) * r, k < .72 ? pick([STEEL, INK]) : INK);
+      } else { // the edges of the slab
+        const e = Math.floor(rnd() * 6), k = rnd() * 2 - 1;
+        const pts = [[k * X, -1, Z], [X, -1, k * Z], [X, -1 + (k + 1) / 2 * 1.72, Z], [-X, -1 + (k + 1) / 2 * 1.72, Z], [X, -1 + (k + 1) / 2 * 1.72, -Z], [k * X, -1, -Z]][e];
+        put(s, i, pts[0], pts[1], pts[2], pick([STEEL, PALE, MIST]));
+      }
     }
     return s;
   }
@@ -512,7 +543,7 @@
     cloud();
   }
   size();
-  const SHAPES = { drop: drop(), face: face(), bottle: bottle(), molecule: molecule(), phone: phone(), cloud: cloudS };
+  const SHAPES = { skin: skin(), face: face(), bottle: bottle(), molecule: molecule(), phone: phone(), cloud: cloudS };
   addEventListener('resize', size);
 
   // geometry: current positions and colours, eased toward the target every frame
@@ -548,11 +579,15 @@
       void main(){ vec2 c = gl_PointCoord - 0.5; float r = length(c); if (r > 0.5) discard; gl_FragColor = vec4(vColor, smoothstep(0.5, 0.25, r) * vAlpha); }`,
   });
   const pts = new THREE.Points(geo, mat); scene.add(pts);
+  // label anchors on the skin block's front-left edge (object space), and the tip of the hair
+  const labels = [...document.querySelectorAll('#labels .lbl')];
+  const anchors = [[-1.2, .58, .62], [-1.2, .06, .62], [-1.2, -.7, .62], [.5, 1.05, .05]].map((a) => new THREE.Vector3(...a));
+  const v3 = new THREE.Vector3();
 
   // chapters → which shape, on which side
   const chapters = [...document.querySelectorAll('[data-shape]')];
   const place = (el) => {
-    const side = el.dataset.side, sc = scaleFor() * ({ bottle: .8, molecule: .82, phone: .88 }[el.dataset.shape] || 1), hero = el.classList.contains('hero');
+    const side = el.dataset.side, sc = scaleFor() * ({ skin: .74, bottle: .8, molecule: .82, phone: .88 }[el.dataset.shape] || 1), hero = el.classList.contains('hero');
     if (small()) return { x: 0, y: hero ? -halfH * .5 : halfH * .5, s: sc * (hero ? .95 : .9) };
     return { x: side === 'right' ? halfW * .45 : side === 'left' ? -halfW * .45 : 0, y: el.classList.contains('closing') ? -halfH * .05 : 0, s: sc };
   };
@@ -583,8 +618,8 @@
   const tgt = new Float32Array(N * 3), tcol = new Float32Array(N * 3);
   const g = { x: 0, y: 0, s: scaleFor() };
   let t = 0, last = performance.now(), intro = still ? 1 : 0, scanT = 0;
-  const spin = { drop: .22, bottle: .28, cloud: .03 };
-  const turn = (name) => name === 'face' ? Math.sin(t * .45) * .42 : name === 'molecule' ? Math.sin(t * .35) * .55 : name === 'phone' ? Math.sin(t * .4) * .35 - .2 : (spin[name] || 0) * t;
+  const spin = { bottle: .28, cloud: .03 };
+  const turn = (name) => name === 'skin' ? -.62 + Math.sin(t * .3) * .3 : name === 'face' ? Math.sin(t * .45) * .42 : name === 'molecule' ? Math.sin(t * .35) * .55 : name === 'phone' ? Math.sin(t * .4) * .35 - .2 : (spin[name] || 0) * t;
   function frame(now) {
     const dt = Math.min(.05, (now - last) / 1000); last = now; t += dt;
     intro = Math.min(1, intro + dt / 1.2);
@@ -605,7 +640,8 @@
     pts.position.set(g.x, g.y, 0); pts.scale.setScalar(g.s);
     const ra = turn(sa), rb = turn(sb);
     pts.rotation.y = (still ? 0 : ra + (rb - ra) * k) + mouse.px * .35;
-    pts.rotation.x = mouse.py * .2;
+    const tilt = (n) => n === 'skin' ? .42 : 0;
+    pts.rotation.x = mouse.py * .2 + tilt(sa) + (tilt(sb) - tilt(sa)) * k;
 
     // the loose cloud fades back so reading chapters stay calm
     const cw = (sa === 'cloud' ? 1 - k : 0) + (sb === 'cloud' ? k : 0);
@@ -617,6 +653,16 @@
     uni.uScan.value = fw * (beam > -1.1 ? 1 : 0); uni.uScanY.value = beam;
     measures(beam, fw > .6);
 
+    // labels follow the block while it is the shape, on wide screens only
+    const sw = (sa === 'skin' ? 1 - k : 0) + (sb === 'skin' ? k : 0), showL = sw > .9 && intro >= 1 && !small();
+    pts.updateMatrixWorld();
+    labels.forEach((el, i) => {
+      el.style.opacity = showL ? '1' : '0';
+      if (!showL) return;
+      v3.copy(anchors[i]).applyMatrix4(pts.matrixWorld).project(camera);
+      const x = (v3.x + 1) / 2 * innerWidth, y = (1 - v3.y) / 2 * innerHeight;
+      el.style.transform = `translate(${x - 10}px, ${y}px) translate(-100%, -50%)`;
+    });
     mouse.x += (mouse.tx - mouse.x) * .12; mouse.y += (mouse.ty - mouse.y) * .12;
     uni.uMouse.value.set(still ? 99 : mouse.x, still ? 99 : mouse.y);
     uni.uTime.value = still ? 0 : t;
