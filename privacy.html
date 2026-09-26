@@ -7,7 +7,7 @@
 <p><small>Effective 26 September 2026</small></p>
 
 <div class="box">
-<p><strong>In short.</strong> Everything you enter and every scan stays on your phone. There is no account. The free app sends only a rounded location for the weather and a product name for ingredient lookups. The Pro assistant, skin analysis and product recognition use AI: for those, the app sends exactly what is listed below, only when you use them, and for face photos only after you agree. Nothing that identifies you is stored on our server.</p>
+<p><strong>In short.</strong> Everything you enter and every scan stays on your phone. There is no account. The free app sends only a rounded location for the weather and a product name for ingredient lookups. Apple Health period data is read only and never leaves your phone. The Pro assistant, skin analysis and product recognition use AI from Anthropic (Claude): each one asks your permission first, sends exactly what is listed below only when you use it, and can be switched off at any time in <em>Profile → AI features</em>. Nothing that identifies you is stored on our server.</p>
 </div>
 
 <h2>What stays on your phone</h2>
@@ -16,6 +16,7 @@
 <li>Your scans, scan photos, self-assessment answers and weekly check-in answers.</li>
 <li>Your routine ticks, appointments and clinic notes, shelf products with their expiry dates, supplements you take, blood test values, saved articles and chat history.</li>
 <li>Reminder settings. Reminders are scheduled locally on the phone.</li>
+<li>Period dates read from Apple Health, if you connect it (see below).</li>
 </ul>
 <p>All of this lives in the app's own storage on your device. Deleting the app deletes it; <em>Profile → Settings → Erase everything</em> does the same. You can make a backup file yourself, which goes only where you save it.</p>
 
@@ -28,16 +29,19 @@
 <li><strong>Report for a doctor.</strong> The PDF is built on your phone and goes only where you send it from the share sheet.</li>
 </ul>
 
-<h3>Pro AI features, only when you use them</h3>
-<p>These run through a small server operated for SkinFormula on Cloudflare Workers, which passes the request to Anthropic's Claude models and returns the answer.</p>
+<h3>Pro AI features, only with your permission</h3>
+<p>These features are optional. They run through a small server operated for SkinFormula on Cloudflare Workers, which passes the request to <strong>Anthropic</strong> (Anthropic PBC, the maker of the Claude AI models) and returns the answer. Anthropic is the AI provider that processes the request; nothing is sent to any other AI company.</p>
+<p><strong>Your permission, per feature.</strong> Each AI feature asks before its first use, on a screen that names our server and Anthropic and says what will be sent. Nothing is sent until you tap yes; the default is off. You give or refuse permission separately for skin analysis (a photo of your face), the assistant (your chat messages and profile summary) and product recognition (a photo of a pack).</p>
+<p><strong>Switching it off.</strong> <em>Profile → AI features</em> shows each feature's permission with a switch. Turning a switch off withdraws your permission at once: the app then refuses to send anything for that feature until you turn it on again. <em>Switch all AI off</em> withdraws all three.</p>
 <ul>
 <li><strong>Personal skin assistant.</strong> Your question, the last few messages of that conversation, and a short summary of your profile so the answer fits you: age, sun type, face and body concerns, pregnancy or breastfeeding, medicines, conditions, and whether your skin is sensitive. Never your name or email. The app shows this summary before you agree to use the assistant.</li>
 <li><strong>Skin analysis.</strong> One front photo from your scan, resized, together with your sun type and language. Only after you agree on the consent screen, and only when you tap <em>Analyse my photo</em>.</li>
 <li><strong>Product recognition.</strong> A photo of the product pack. When the ingredient list is found, the product's name and its ingredient list are kept on the server for 90 days so the next person who scans the same product gets it at once. This cache contains products, never people.</li>
-<li><strong>Usage limit.</strong> Each request carries a random code created on your phone, not linked to you, so the server can count daily use and stop abuse. The count is deleted after about a day.</li>
+<li><strong>Usage limit.</strong> Each request carries a random code created on your phone, not linked to you, so the server can count daily use and stop abuse. The count is deleted after about two days.</li>
 </ul>
-<p>Our server stores nothing else: no photos, no messages, no profile summaries. Anthropic processes these requests as our service provider under its commercial terms, does not use them to train its models, and keeps them only for a limited period for safety and abuse monitoring (see <a href="https://www.anthropic.com/legal/privacy">anthropic.com/legal/privacy</a>). Cloudflare hosts the server (<a href="https://www.cloudflare.com/privacypolicy/">cloudflare.com/privacypolicy</a>). Both may process data outside your country, including in the United States, under the safeguards in their data processing terms.</p>
-<p>You choose whether to use these features. <em>Erase everything</em> also resets your AI consents and the random code.</p>
+<p>Reading a blood test from a photo, the skin scan itself and the Sunday check-in work on your phone and use no AI server.</p>
+<p>Our server stores nothing else: no photos, no messages, no profile summaries. Anthropic processes these requests as our service provider under its commercial terms: it does not use them to train its AI models, and it deletes them within 30 days, unless a request is flagged for a usage-policy violation (then it may be kept up to two years) or the law requires keeping it longer (see <a href="https://www.anthropic.com/legal/privacy">anthropic.com/legal/privacy</a>). Cloudflare hosts the server (<a href="https://www.cloudflare.com/privacypolicy/">cloudflare.com/privacypolicy</a>). Both may process data outside your country, including in the United States, under the safeguards in their data processing terms.</p>
+<p>You choose whether to use these features. <em>Erase everything</em> also resets your AI permissions and the random code.</p>
 
 <h3>Subscriptions</h3>
 <p>SkinFormula Pro is bought through Apple. Apple handles payment and your Apple ID; the app only learns from Apple whether a Pro subscription is active on this device. We never see your name, email or card.</p>
@@ -47,11 +51,15 @@
 <h2>Camera and photos</h2>
 <p>The camera is used for skin scans and to read product labels and blood test results. Images are analysed on the device. The app keeps scan photos in its own folder for your progress timeline. A photo leaves the phone only for the Pro features above, or in a report you share yourself.</p>
 
+<h2>Apple Health</h2>
+<p>If you choose <em>Read from Apple Health</em> under <em>Cycle awareness</em>, the app asks Apple for read-only access to one data type: menstrual flow (your period dates). It uses them only to show which phase of your cycle you are in and how that affects your skin. The app never writes to Apple Health and reads nothing else.</p>
+<p>Data from Apple Health stays on your phone. It is never sent to our server, to Anthropic or to anyone else, never included in the AI assistant's profile summary, and never used for advertising, marketing or data mining. You can turn access off at any time in the Health app under <em>Sharing → Apps → SkinFormula</em>.</p>
+
 <h2>Health information</h2>
-<p>Skin observations, pregnancy status, medicines, conditions, cycle dates, weight, supplements and blood test values are health information. They are stored on your phone and used to build your plan and safety notes. They leave the phone only as part of the Pro assistant's profile summary, when you use it and have agreed. SkinFormula is not a medical device and does not diagnose.</p>
+<p>Skin observations, pregnancy status, medicines, conditions, cycle dates, weight, supplements and blood test values are health information. They are stored on your phone and used to build your plan and safety notes. They leave the phone only as part of the Pro assistant's profile summary (and any test results you shared in that chat), when you use the assistant and have agreed. Apple Health data is never part of it. SkinFormula is not a medical device and does not diagnose.</p>
 
 <h2>Legal basis and your rights</h2>
-<p>Data sent for the Pro features is processed to provide the feature you asked for, and health information only with your explicit consent (GDPR Art. 6(1)(b) and 9(2)(a); Swiss Federal Act on Data Protection). You can withdraw consent at any time by not using the feature and erasing your data in the app. Because we hold no data that identifies you, there is usually nothing for us to access or delete; if you have a question or request, write to us and we will help. You may also complain to your data protection authority.</p>
+<p>Data sent for the Pro features is processed to provide the feature you asked for, and health information only with your explicit consent (GDPR Art. 6(1)(b) and 9(2)(a); Swiss Federal Act on Data Protection). You can withdraw consent at any time in <em>Profile → AI features</em>, and erase your data in the app. Because we hold no data that identifies you, there is usually nothing for us to access or delete; if you have a question or request, write to us and we will help. You may also complain to your data protection authority.</p>
 
 <h2>Children</h2>
 <p>SkinFormula is intended for people aged 16 and over.</p>
