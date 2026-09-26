@@ -4,7 +4,7 @@
 <body><main>
 <p class="top"><a href="index.html">SkinFormula</a></p>
 <h1>Privacy policy</h1>
-<p><small>Effective 26 September 2026</small></p>
+<p><small>Effective 27 September 2026</small></p>
 
 <div class="box">
 <p><strong>In short.</strong> Everything you enter and every scan stays on your phone. There is no account. The free app sends only a rounded location for the weather and a product name for ingredient lookups. Apple Health period data is read only and never leaves your phone. The Pro assistant, skin analysis and product recognition use AI from Anthropic (Claude): each one asks your permission first, sends exactly what is listed below only when you use it, and can be switched off at any time in <em>Profile → AI features</em>. Nothing that identifies you is stored on our server.</p>
@@ -18,7 +18,8 @@
 <li>Reminder settings. Reminders are scheduled locally on the phone.</li>
 <li>Period dates read from Apple Health, if you connect it (see below).</li>
 </ul>
-<p>All of this lives in the app's own storage on your device. Deleting the app deletes it; <em>Profile → Settings → Erase everything</em> does the same. You can make a backup file yourself, which goes only where you save it.</p>
+<p>All of this lives in the app's own storage on your device. Deleting the app deletes it; <em>Profile → Settings → Erase everything</em> does the same.</p>
+<p><strong>Backups you make yourself.</strong> <em>Save a backup</em> puts everything listed above into one file: your answers, health information (including your period dates, also those read from Apple Health), photos, chat history and blood test values. The app does not upload it anywhere; the file is saved where you choose in the share sheet, for example iCloud Drive, the Files app or AirDrop to a new phone, and from then on it is kept under that place's own terms. The app deletes its temporary copy once the share sheet closes. Anyone with the file can read what is in it, so keep it somewhere private.</p>
 
 <h2>What the app sends, and to whom</h2>
 <h3>Always (free and Pro)</h3>
@@ -37,7 +38,7 @@
 <li><strong>Personal skin assistant.</strong> Your question, the last few messages of that conversation, and a short summary of your profile so the answer fits you: age, sun type, face and body concerns, pregnancy or breastfeeding, medicines, conditions, and whether your skin is sensitive. Never your name or email. The app shows this summary before you agree to use the assistant.</li>
 <li><strong>Skin analysis.</strong> One front photo from your scan, resized, together with your sun type and language. Only after you agree on the consent screen, and only when you tap <em>Analyse my photo</em>.</li>
 <li><strong>Product recognition.</strong> A photo of the product pack. When the ingredient list is found, the product's name and its ingredient list are kept on the server for 90 days so the next person who scans the same product gets it at once. This cache contains products, never people.</li>
-<li><strong>Usage limit.</strong> Each request carries a random code created on your phone, not linked to you, so the server can count daily use and stop abuse. The count is deleted after about two days.</li>
+<li><strong>Usage limit.</strong> Each request carries a random code created on your phone, not linked to you, so the server can count daily use and stop abuse. The server also counts requests per network, under a one-way code made from your IP address that changes every day; the address itself is not stored. Both counts are deleted after about two days.</li>
 </ul>
 <p>Reading a blood test from a photo, the skin scan itself and the Sunday check-in work on your phone and use no AI server.</p>
 <p>Our server stores nothing else: no photos, no messages, no profile summaries. Anthropic processes these requests as our service provider under its commercial terms: it does not use them to train its AI models, and it deletes them within 30 days, unless a request is flagged for a usage-policy violation (then it may be kept up to two years) or the law requires keeping it longer (see <a href="https://www.anthropic.com/legal/privacy">anthropic.com/legal/privacy</a>). Cloudflare hosts the server (<a href="https://www.cloudflare.com/privacypolicy/">cloudflare.com/privacypolicy</a>). Both may process data outside your country, including in the United States, under the safeguards in their data processing terms.</p>
@@ -53,7 +54,7 @@
 
 <h2>Apple Health</h2>
 <p>If you choose <em>Read from Apple Health</em> under <em>Cycle awareness</em>, the app asks Apple for read-only access to one data type: menstrual flow (your period dates). It uses them only to show which phase of your cycle you are in and how that affects your skin. The app never writes to Apple Health and reads nothing else.</p>
-<p>Data from Apple Health stays on your phone. It is never sent to our server, to Anthropic or to anyone else, never included in the AI assistant's profile summary, and never used for advertising, marketing or data mining. You can turn access off at any time in the Health app under <em>Sharing → Apps → SkinFormula</em>.</p>
+<p>Data from Apple Health stays on your phone. It is never sent to our server, to Anthropic or to anyone else, never included in the AI assistant's profile summary, and never used for advertising, marketing or data mining. The only exception is a backup file you make yourself (see above), which includes your period dates and is saved only where you choose. You can turn access off at any time in the Health app under <em>Sharing → Apps → SkinFormula</em>.</p>
 
 <h2>Health information</h2>
 <p>Skin observations, pregnancy status, medicines, conditions, cycle dates, weight, supplements and blood test values are health information. They are stored on your phone and used to build your plan and safety notes. They leave the phone only as part of the Pro assistant's profile summary (and any test results you shared in that chat), when you use the assistant and have agreed. Apple Health data is never part of it. SkinFormula is not a medical device and does not diagnose.</p>
