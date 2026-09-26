@@ -1,41 +1,63 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Privacy policy — SkinFormula</title><link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
-<style>body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;color:#152030;background:#EEF1F8}main{max-width:720px;margin:0 auto;padding:40px 20px 80px;line-height:1.6}h1{font-size:34px;letter-spacing:-.5px}h2{font-size:19px;margin-top:32px}p,li{color:#4E5C71;font-size:16px}a{color:#4F63F0}.top a{text-decoration:none;color:#152030;font-weight:800}small{color:#7E8CA2}</style></head>
+<style>body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;color:#17186E;background:#F6F6FA}main{max-width:720px;margin:0 auto;padding:40px 20px 80px;line-height:1.6}h1{font-size:34px;letter-spacing:-.5px}h2{font-size:19px;margin-top:32px}h3{font-size:16px;margin:20px 0 4px}p,li{color:#3A3B5C;font-size:16px}a{color:#3D3FB8}.top a{text-decoration:none;color:#17186E;font-weight:800}small{color:#6E70A8}.box{background:#fff;border-radius:18px;padding:16px 20px;box-shadow:0 8px 24px rgba(36,36,41,.06)}</style></head>
 <body><main>
 <p class="top"><a href="index.html">SkinFormula</a></p>
 <h1>Privacy policy</h1>
-<p><small>Effective 14 September 2026</small></p>
-<p>SkinFormula is designed so that your personal data stays on your phone. This page says exactly what the app stores, what it sends, and to whom.</p>
+<p><small>Effective 26 September 2026</small></p>
+
+<div class="box">
+<p><strong>In short.</strong> Everything you enter and every scan stays on your phone. There is no account. The free app sends only a rounded location for the weather and a product name for ingredient lookups. The Pro assistant, skin analysis and product recognition use AI: for those, the app sends exactly what is listed below, only when you use them, and for face photos only after you agree. Nothing that identifies you is stored on our server.</p>
+</div>
 
 <h2>What stays on your phone</h2>
 <ul>
-<li>Your answers from the questionnaire (age, gender, climate, concerns, goals, skin type, sensitivity, pregnancy status, products in use, budget) and the safety answers you choose to add (medicines, conditions, allergies, breastfeeding, cycle dates, weight entries).</li>
-<li>Your scan results, self-assessment answers, and the scan photos the app keeps for the progress timeline.</li>
-<li>Your routine ticks, appointments, saved products with their opening and expiry dates, lab values and saved articles.</li>
-<li>Your reminder settings. Reminders are scheduled locally on the phone; no notification service of ours is involved.</li>
+<li>Your answers: name, age, gender, skin type, sun type, climate, face and body concerns, goals, sensitivity, pregnancy and breastfeeding, products in use, budget, and the safety answers you add (medicines, conditions, allergies, cycle dates, weight entries).</li>
+<li>Your scans, scan photos, self-assessment answers and weekly check-in answers.</li>
+<li>Your routine ticks, appointments and clinic notes, shelf products with their expiry dates, supplements you take, blood test values, saved articles and chat history.</li>
+<li>Reminder settings. Reminders are scheduled locally on the phone.</li>
 </ul>
-<p>All of this is stored in the app's own storage on the device. There is no account and no server of ours. Deleting the app deletes all of it. The app has an "Erase everything" button in Settings that does the same.</p>
+<p>All of this lives in the app's own storage on your device. Deleting the app deletes it; <em>Profile → Settings → Erase everything</em> does the same. You can make a backup file yourself, which goes only where you save it.</p>
 
 <h2>What the app sends, and to whom</h2>
+<h3>Always (free and Pro)</h3>
 <ul>
-<li><strong>Weather.</strong> If you allow location, the app rounds your position to about one kilometre and sends only those coordinates to Open-Meteo (open-meteo.com) to fetch the ultraviolet index, temperature and humidity. Your position is not stored by the app beyond the current reading and is not linked to you.</li>
-<li><strong>Product lookup.</strong> When you photograph a product, the photo is read on your phone. To fetch the ingredient list, the app sends only the product name it read to Open Beauty Facts (openbeautyfacts.org), a public database. The photo itself is never sent. Products you check are remembered on your phone so they are recognised next time.</li>
-<li><strong>Calendar and Reminders.</strong> If you choose to add an appointment to your iPhone Calendar or Reminders, the app writes that event into Apple's apps on your phone. Nothing leaves the device.</li>
-<li><strong>Report for a doctor.</strong> If you tap "Share report as PDF", the app builds a PDF on your phone and opens the iPhone share sheet. It goes only where you send it (email, messages, AirDrop). The app itself sends nothing.</li>
+<li><strong>Weather.</strong> If you allow location, your position is rounded to about one kilometre and only those coordinates are sent to Open-Meteo (open-meteo.com) for the UV index, temperature and humidity. The app does not store your position.</li>
+<li><strong>Ingredient lookup.</strong> A product photo is read on your phone. To find the ingredient list, the app sends only the product name it read to Open Beauty Facts (openbeautyfacts.org), a public database. The photo is not sent.</li>
+<li><strong>Calendar and Reminders.</strong> Appointments you choose to add are written into Apple's Calendar or Reminders on your phone.</li>
+<li><strong>Report for a doctor.</strong> The PDF is built on your phone and goes only where you send it from the share sheet.</li>
 </ul>
-<p>The app sends nothing else. It does not use analytics, advertising identifiers, crash reporting services or tracking of any kind.</p>
 
-<h2>Camera</h2>
-<p>The camera is used for the skin scan and to read product labels. Images are analysed on the device. From each scan the app keeps the first frame, and optionally a left and right view, inside its own folder on your phone so later scans can be lined up over it. These photos never leave the device unless you include them in a report you choose to share. Erasing your data or deleting the app removes them.</p>
+<h3>Pro AI features, only when you use them</h3>
+<p>These run through a small server operated for SkinFormula on Cloudflare Workers, which passes the request to Anthropic's Claude models and returns the answer.</p>
+<ul>
+<li><strong>Personal skin assistant.</strong> Your question, the last few messages of that conversation, and a short summary of your profile so the answer fits you: age, sun type, face and body concerns, pregnancy or breastfeeding, medicines, conditions, and whether your skin is sensitive. Never your name or email. The app shows this summary before you agree to use the assistant.</li>
+<li><strong>Skin analysis.</strong> One front photo from your scan, resized, together with your sun type and language. Only after you agree on the consent screen, and only when you tap <em>Analyse my photo</em>.</li>
+<li><strong>Product recognition.</strong> A photo of the product pack. When the ingredient list is found, the product's name and its ingredient list are kept on the server for 90 days so the next person who scans the same product gets it at once. This cache contains products, never people.</li>
+<li><strong>Usage limit.</strong> Each request carries a random code created on your phone, not linked to you, so the server can count daily use and stop abuse. The count is deleted after about a day.</li>
+</ul>
+<p>Our server stores nothing else: no photos, no messages, no profile summaries. Anthropic processes these requests as our service provider under its commercial terms, does not use them to train its models, and keeps them only for a limited period for safety and abuse monitoring (see <a href="https://www.anthropic.com/legal/privacy">anthropic.com/legal/privacy</a>). Cloudflare hosts the server (<a href="https://www.cloudflare.com/privacypolicy/">cloudflare.com/privacypolicy</a>). Both may process data outside your country, including in the United States, under the safeguards in their data processing terms.</p>
+<p>You choose whether to use these features. <em>Erase everything</em> also resets your AI consents and the random code.</p>
+
+<h3>Subscriptions</h3>
+<p>SkinFormula Pro is bought through Apple. Apple handles payment and your Apple ID; the app only learns from Apple whether a Pro subscription is active on this device. We never see your name, email or card.</p>
+
+<p>The app uses no analytics, advertising identifiers, crash-reporting services or tracking.</p>
+
+<h2>Camera and photos</h2>
+<p>The camera is used for skin scans and to read product labels and blood test results. Images are analysed on the device. The app keeps scan photos in its own folder for your progress timeline. A photo leaves the phone only for the Pro features above, or in a report you share yourself.</p>
 
 <h2>Health information</h2>
-<p>Skin observations, pregnancy status, medicines, conditions, cycle dates, weight and lab values you enter are health-related. They are stored only on your phone, are never transmitted by the app, and are used only to build your plan and safety notes. Every number the app produces is an estimate and is labelled as such; SkinFormula is not a medical device and does not diagnose.</p>
+<p>Skin observations, pregnancy status, medicines, conditions, cycle dates, weight, supplements and blood test values are health information. They are stored on your phone and used to build your plan and safety notes. They leave the phone only as part of the Pro assistant's profile summary, when you use it and have agreed. SkinFormula is not a medical device and does not diagnose.</p>
+
+<h2>Legal basis and your rights</h2>
+<p>Data sent for the Pro features is processed to provide the feature you asked for, and health information only with your explicit consent (GDPR Art. 6(1)(b) and 9(2)(a); Swiss Federal Act on Data Protection). You can withdraw consent at any time by not using the feature and erasing your data in the app. Because we hold no data that identifies you, there is usually nothing for us to access or delete; if you have a question or request, write to us and we will help. You may also complain to your data protection authority.</p>
 
 <h2>Children</h2>
 <p>SkinFormula is intended for people aged 16 and over.</p>
 
-<h2>Your rights</h2>
-<p>Because we hold no data about you, there is nothing for us to access, correct or delete on your behalf: you control all of it on your device. Questions about this policy: <a href="mailto:hello@skinformula.app">hello@skinformula.app</a>.</p>
+<h2>Contact</h2>
+<p><a href="mailto:hello@skinformula.app">hello@skinformula.app</a></p>
 
 <h2>Changes</h2>
 <p>If a future version sends any further data anywhere, this page and the app will say so before that version is released.</p>

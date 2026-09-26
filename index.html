@@ -88,6 +88,10 @@
   .head{text-align:center;max-width:620px;margin:0 auto 36px}
   .head p{color:var(--mist);font-size:17px}
   .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .grid4 .screenitem h3{margin-top:18px}
+  .grid4 .screenitem p{font-size:14.5px}
+  @media (max-width:980px){.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
   .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
   .card{background:var(--canvas);border-radius:24px;padding:24px}
   .card .label{display:block;margin-bottom:22px}
@@ -302,17 +306,19 @@
           <li>Your location, rounded, only for today's ultraviolet index, and only when you allow it.</li>
           <li>A product name, when a lookup in the public ingredient database is needed.</li>
           <li>Your report for a dermatologist, only when you share it yourself.</li>
+          <li>With Pro, only when you use it: your question and a short profile summary for the assistant, or one scan photo for skin analysis, after you agree. Nothing is kept.</li>
           <li>Never diagnoses: it sorts findings into home care, a cosmetologist, a dermatologist or a doctor.</li>
         </ul>
       </div>
     </section>
 
     <section id="inside" data-shape="cloud" data-side="center">
-      <div class="head rv"><h2>Inside the app</h2><p>One photo, one scan, one honest answer.</p></div>
-      <div class="grid3">
-        <div class="screenitem rv" style="--d:1"><div class="shot"><img src="img/today.jpg" alt="A SkinFormula screen" width="900" height="1957" loading="lazy"></div><h3>Today</h3><p>Tonight's steps with your own bottles, the ultraviolet index where you are, and where you are in the plan.</p></div>
-        <div class="screenitem rv" style="--d:2"><div class="shot"><img src="img/check.jpg" alt="Check a product: the verdict for your skin from one photo of the pack" width="900" height="1957" loading="lazy"></div><h3>Check a product</h3><p>Photograph the pack and get a verdict for your skin, not for everyone's, with every ingredient explained.</p></div>
-        <div class="screenitem rv" style="--d:3"><div class="shot"><img src="img/procedures.jpg" alt="Procedures ranked for you, with evidence grades" width="900" height="1957" loading="lazy"></div><h3>Treatments for you</h3><p>What fits your age, skin type and scan, what is too early, how often to repeat it, and the products clinics use, compared.</p></div>
+      <div class="head rv"><h2>Inside the app</h2><p>Your day, your skin explained, your treatments, and a library that answers the next question.</p></div>
+      <div class="grid4">
+        <div class="screenitem rv" style="--d:1"><div class="shot"><img src="img/today.jpg" alt="Today: date, weather with the sunscreen note, and the morning routine" width="900" height="1957" loading="lazy"></div><h3>Today</h3><p>The weather and when to reapply sunscreen, today's appointments, the supplements to take, then morning and evening care, step by step.</p></div>
+        <div class="screenitem rv" style="--d:2"><div class="shot"><img src="img/results.jpg" alt="Your results: the skin score and your skin explained" width="900" height="1957" loading="lazy"></div><h3>Your skin, explained</h3><p>What the scan sees, how old your skin looks and why, what it needs, where to start, which supplements and blood tests are worth a look.</p></div>
+        <div class="screenitem rv" style="--d:3"><div class="shot"><img src="img/plan.jpg" alt="Treatments: calendar, routine, week and procedures" width="900" height="1957" loading="lazy"></div><h3>Treatments</h3><p>One calendar for clinic and home. Your routine uses the products you own while they are still good, and says what is missing, for face and body.</p></div>
+        <div class="screenitem rv" style="--d:4"><div class="shot"><img src="img/advice.jpg" alt="Advice: illustrated articles on skin, sun, actives and body" width="900" height="1957" loading="lazy"></div><h3>Advice</h3><p>Over sixty illustrated articles and a graded knowledge base: sun, actives, acne, injections, body skin, supplements, every claim sourced.</p></div>
       </div>
     </section>
 
@@ -323,8 +329,10 @@
           <details><summary>Is the scan real, or a guess?</summary><p>Real, and limited. The camera measures colour, shine, texture, pores and lines on the phone. It cannot measure hydration or elasticity, so those come from your answers and are labelled that way. A change under five points between scans is noise.</p></details>
           <details><summary>Does it diagnose anything?</summary><p>No. It sorts findings into home care, professional cosmetology, a dermatologist, or a doctor soon, and it never names a disease.</p></details>
           <details><summary>Will it tell me which procedures to have?</summary><p>It tells you what fits your age, skin type and scan, what is too early, and how often a treatment is usually repeated. The practitioner has the last word; the app helps you ask the right questions.</p></details>
-          <details><summary>Which languages?</summary><p>English, German, French, Italian, Spanish and Russian. The knowledge-base articles are in English for now.</p></details>
-          <details><summary>What does it cost?</summary><p>During testing, everything is free. Later there will be one clearly named subscription, SkinFormula Pro. The scan, the routine, the calendar and the whole knowledge base stay free.</p></details>
+          <details><summary>Which languages?</summary><p>English, German, French, Italian, Spanish and Russian: every screen and every article. The deeper knowledge base is being translated now.</p></details>
+          <details><summary>What does it cost?</summary><p>The scan, your routine, the treatments calendar, the weekly check and every article are free. SkinFormula Pro adds the personal skin assistant, skin analysis of your scan photo and product recognition from one photo: 9.99 a month or 59.99 a year (CHF 12.90 or CHF 79 in Switzerland), no trial, cancel any time in your iPhone settings. During testing everything is free.</p></details>
+          <details><summary>Does the AI see my photos?</summary><p>Only if you use a Pro feature and agree. Skin analysis sends one scan photo, once, and nothing is kept. Everything else stays on your phone. The <a href="privacy.html">privacy policy</a> lists exactly what goes where.</p></details>
+          <details><summary>What about the body, supplements and blood tests?</summary><p>Tick what bothers you on your body, from back acne to eczema, and the routine covers it. Supplements are graded by the human evidence and checked against your medicines. Enter a blood result and the app says what doctors usually advise, which foods help, and puts the re-test in your calendar. Your doctor decides; the app never diagnoses.</p></details>
         </div>
       </div>
     </section>
